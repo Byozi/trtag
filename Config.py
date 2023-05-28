@@ -1,5 +1,8 @@
 import os
+from dotenv import load_dotenv
 
+# .env dosyasını yükle
+load_dotenv()
 
 class Config():
     # Get these values from my.telegram.org

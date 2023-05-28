@@ -53,17 +53,10 @@ async def start(event):
 
 @client.on(events.NewMessage(pattern="^/help$"))
 async def help(event):
-    helptext = "**🌀 Sera Tag Bot Komutlarına aşağıdan ulaşabilrisiniz. **\n\n **/start - Botun göreve başlatılmasını sağlar**\n\n **/tag <Açıklama> - 5-li Etiket Atar**\n\n**/etag <Açıklama> - Emoji ile etiketler**\n\n**/tektag  <Açıklama>  - Üyeleri Tek Tek Etiketler**\n\n**/admins  <Açıklama>  - Yöneticileri Tek Tek Tag Eder**\n\n /btag - **Bayrak Şeklinde Etiket Atar** \n\n /iptal - **Başlatılan etiketleme işlemini durdurur.**\n\n Açıklama yazan kısımlara kullanıcılara söylemek istediğiniz metni yazabilirsiniz. "
-  
-    if event.is_group:
-        # Grup içinde /help komutuna özel bir yanıt vermek istiyorsanız buraya kodlarınızı ekleyin
-        helptext += "\n\nçalışıyorum"
-    else:
-        # Özel mesajlarda /help komutuna yanıt vermek istiyorsanız buraya kodlarınızı ekleyin
-        helptext += "\n\nBu özel mesajlar için ekstra metin"
-  
-    await event.reply(helptext,
+  helptext = "**🌀 Sera Tag Bot Komutlarına aşağıdan ulaşabilrisiniz. **\n\n **/start - Botun göreve başlatılmasını sağlar**\n\n **/tag <Açıklama> - 5-li Etiket Atar**\n\n**/etag <Açıklama> - Emoji ile etiketler**\n\n**/tektag  <Açıklama>  - Üyeleri Tek Tek Etiketler**\n\n**/admins  <Açıklama>  - Yöneticileri Tek Tek Tag Eder**\n\n /btag - **Bayrak Şeklinde Etiket Atar** \n\n /iptal - **Başlatılan etiketleme işlemini durdurur.**\n\n Açıklama yazan kısımlara kullanıcılara söylemek istediğiniz metni yazabilirsiniz. "
+  await event.reply(helptext,
                     buttons=(
+                      
                           [Button.url('➕ Beni Gruba Ekle ', f"https://t.me/{bot_username}?startgroup=a")],
                           [Button.url('Müzik Botu', f"https://t.me/seramusicbot")],
 		                  [Button.url('Teknik Destek', 'https://t.me/scrable')],
@@ -71,6 +64,12 @@ async def help(event):
                     ),
                     link_preview=False
                    )
+
+@client.on(events.NewMessage(pattern="^/yardim$"))
+async def yardim(event):
+    user_id = event.sender_id
+    await client.send_message(user_id, "/yardim")
+
 
 @client.on(events.NewMessage(pattern='^(?i)/iptal'))
 async def cancel(event):

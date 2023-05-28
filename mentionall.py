@@ -43,10 +43,10 @@ async def start(event):
   await event.reply("**🌀Sera Tag Bot**\n **ile grubunuzdakı nerdeyse tüm üyelere etiket atabilirim \nKomutlar için /help yazın**",
                     buttons=(                  
 		                      
-                          [Button.url('Beni Gruba Ekle ➕', f"https://t.me/{bot_username}?startgroup=a")],
+                          [Button.url('➕ Beni Gruba Ekle ', f"https://t.me/{bot_username}?startgroup=a")],
                           [Button.url('Müzik Botu', f"https://t.me/seramusicbot")],
-		                  [Button.url('Teknik Destek🏻‍💻', 'https://t.me/scrable')],
-		                  [Button.url('Tüm Botlarımız ', 'https://t.me/serabotu')],
+		                  [Button.url('Teknik Destek', 'https://t.me/scrable')],
+		                  [Button.url('Tüm Diğer Botlar', 'https://t.me/serabotu')],
                     ),
                     link_preview=False
                    )
@@ -57,10 +57,10 @@ async def help(event):
   await event.reply(helptext,
                     buttons=(
                       
-                          [Button.url('Beni Gruba Ekle ➕', f"https://t.me/{bot_username}?startgroup=a")],
+                          [Button.url('➕ Beni Gruba Ekle ', f"https://t.me/{bot_username}?startgroup=a")],
                           [Button.url('Müzik Botu', f"https://t.me/seramusicbot")],
-		                  [Button.url('Teknik Destek🏻‍💻', 'https://t.me/scrable')],
-		                  [Button.url('Tüm Botlarımız ', 'https://t.me/serabotu')],
+		                  [Button.url('Teknik Destek', 'https://t.me/scrable')],
+		                  [Button.url('Tüm Diğer Botlar', 'https://t.me/serabotu')],
                     ),
                     link_preview=False
                    )
@@ -371,10 +371,10 @@ async def start(event):
   await event.reply("**🌀Sera Tag Bot**\n **Boş Bi Menü Burası**",
                     buttons=(
                       
-                          [Button.url('Beni Gruba Ekle ➕', f"https://t.me/{bot_username}?startgroup=a")],
+                          [Button.url('➕ Beni Gruba Ekle ', f"https://t.me/{bot_username}?startgroup=a")],
                           [Button.url('Müzik Botu', f"https://t.me/seramusicbot")],
-		                  [Button.url('Teknik Destek🏻‍💻', 'https://t.me/scrable')],
-		                  [Button.url('Tüm Botlarımız ', 'https://t.me/serabotu')],
+		                  [Button.url('Teknik Destek', 'https://t.me/scrable')],
+		                  [Button.url('Tüm Diğer Botlar', 'https://t.me/serabotu')],
                     ),
                     link_preview=False
                    )

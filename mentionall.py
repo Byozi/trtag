@@ -40,7 +40,7 @@ rxyzdev_initT = {}
 
 @client.on(events.NewMessage(pattern="^/start$"))
 async def start(event):
-  await event.reply("**🌀Sera Tag Bot**\n **ile grubunuzdakı nerdeyse tüm üyelere etiket atabilirim \nKomutlar için /help yazın**",
+  await event.reply("**🌀Sera Tag Bot** çalışıyor!\n Ben gruplarınızdaki tüm kullanıcılara etiket atmaya yarayan son derece basit kullanıma sahip bir botum. Komutlarımı görmek için /help yazabilirsiniz.\n\n Tamamen ücretsiz olarak hizmet vermekteyim. Gruplarınıza eklemekten çekinmeyiniz. ",
                     buttons=(                  
 		                      
                           [Button.url('➕ Beni Gruba Ekle ', f"https://t.me/{bot_username}?startgroup=a")],
@@ -53,7 +53,7 @@ async def start(event):
 
 @client.on(events.NewMessage(pattern="^/help$"))
 async def help(event):
-  helptext = "**🌀 Sera Tag Bot Komutlarına aşağıdan ulaşabilrisiniz. **\n\n **/start - Botun göreve başlatılmasını sağlar**\n\n **/tag <Duyurunuz> - 5-li Etiket Atar**\n\n**/etag <Duyurunuz> - Emoji ile etiketler**\n\n**/tektag sebeb - Üyeleri Tek Tek Etiketler**\n\n**/admins sebeb - Yöneticileri Tek Tek Tag Eder**\n\n /btag - **Bayrak Şeklinde Etiket Atar** \n\n /iptal - **Başlatılan etiketleme işlemini durdurur.**"
+  helptext = "**🌀 Sera Tag Bot Komutlarına aşağıdan ulaşabilrisiniz. **\n\n **/start - Botun göreve başlatılmasını sağlar**\n\n **/tag <Açıklama> - 5-li Etiket Atar**\n\n**/etag <Açıklama> - Emoji ile etiketler**\n\n**/tektag  <Açıklama>  - Üyeleri Tek Tek Etiketler**\n\n**/admins  <Açıklama>  - Yöneticileri Tek Tek Tag Eder**\n\n /btag - **Bayrak Şeklinde Etiket Atar** \n\n /iptal - **Başlatılan etiketleme işlemini durdurur.**\n\n Açıklama yazan kısımlara kullanıcılara söylemek istediğiniz metni yazabilirsiniz. "
   await event.reply(helptext,
                     buttons=(
                       
@@ -98,9 +98,9 @@ async def mentionall(event):
     if msg == None:
         return await event.respond("**Geçmiş mesajlar için etiket ede bilmiom**")
   elif event.pattern_match.group(1) and event.reply_to_msg_id:
-    return await event.respond("Etiket Yapmak için sebeb yok❗️")
+    return await event.respond("Etiket Yapmak için  <Açıklama>  yok❗️")
   else:
-    return await event.respond("**Etikete Başlamak için sebeb yazın...!**")
+    return await event.respond("**Etikete Başlamak için  <Açıklama>  yazın...!**")
   
   if mode == "text_on_cmd":
     anlik_calisan.append(event.chat_id)
@@ -144,7 +144,7 @@ async def mentionall(event):
     if msg == None:
         return await event.respond("**Önceki mesajları etiket işlemi için kullanamıyorum.**")
   elif event.pattern_match.group(1) and event.reply_to_msg_id:
-    return await event.respond("Etiket Yapmak için sebeb yok❗️")
+    return await event.respond("Etiket Yapmak için  <Açıklama>  yok❗️")
   else:
     return await event.respond("**Etikete başlamak için mesaj yazmalısın!**")
   
@@ -204,7 +204,7 @@ async def mentionall(event):
     if msg == None:
         return await event.respond("Önceki mesajları etiket işlemi için kullanamıyorum.")
   elif event.pattern_match.group(1) and event.reply_to_msg_id:
-    return await event.respond("Başlatmak için sebeb yok❗️")
+    return await event.respond("Başlatmak için  <Açıklama>  yok❗️")
   else:
     return await event.respond("Işleme başlamak için sebep yok")
   

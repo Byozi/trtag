@@ -214,7 +214,7 @@ async def mentionall(event):
     usrtxt = ""
     async for usr in client.iter_participants(event.chat_id):
       usrnum += 1
-      usrtxt += f"👥 - [{usr.first_name}](tg://user?id={usr.id}) \n"
+      usrtxt += f"[{usr.first_name}](tg://user?id={usr.id}), "
       if event.chat_id not in anlik_calisan:
         await event.respond("**İşlem başarıyla durduruldu**❌")
         return
@@ -232,7 +232,7 @@ async def mentionall(event):
     usrtxt = ""
     async for usr in client.iter_participants(event.chat_id):
       usrnum += 1
-      usrtxt += f"👥 - [{usr.first_name}](tg://user?id={usr.id}) \n"
+      usrtxt += f"[{usr.first_name}](tg://user?id={usr.id}), "
       if event.chat_id not in anlik_calisan:
         await event.respond("işlem başarıyla durduruldu❌")
         return
@@ -279,7 +279,7 @@ async def mentionall(event):
     usrtxt = ""
     async for usr in client.iter_participants(event.chat_id):
       usrnum += 1
-      usrtxt += f"**👤 - [{usr.first_name}](tg://user?id={usr.id}) \n**"
+      usrtxt += f"**[{usr.first_name}](tg://user?id={usr.id}), **"
       if event.chat_id not in tekli_calisan:
         await event.respond("**İşlem Başarıyla Durduruldu**❌")
         return
@@ -297,7 +297,7 @@ async def mentionall(event):
     usrtxt = ""
     async for usr in client.iter_participants(event.chat_id):
       usrnum += 1
-      usrtxt += f"👤 - [{usr.first_name}](tg://user?id={usr.id}) \n"
+      usrtxt += f"[{usr.first_name}](tg://user?id={usr.id}),  "
       if event.chat_id not in tekli_calisan:
         await event.respond("**İşlem başarıyla durduruldu**❌")
         return
@@ -354,7 +354,7 @@ async def son_durum(event):
 @client.on(events.NewMessage(pattern='/durum'))
 async def handler(event):
 	
-    await event.reply('**Tagger Bot un Durum Menüsü** \n\n __Durum:__ `Çalışıyor✅` \n\n **Telethon Sürümü:** __v1.24.0__ \n\n**Python Sürümü:** __v3.10__ \n\n **Bot Sürümü:** __v1.2__ \n\n **Bu Botun Developeri** @SakirBey1 **dir**')
+    await event.reply('**Tagger Bot un Durum Menüsü** \n\n __Durum:__ `Çalışıyor✅` \n\n **Telethon Sürümü:** __v1.24.0__ \n\n**Python Sürümü:** __v3.10__ \n\n **Bot Sürümü:** __v1.2__ \n\n **** Daha fazla bilgi için @scrable **dir**')
 
 @client.on(events.NewMessage(pattern='/bagis'))
 async def handler(event):

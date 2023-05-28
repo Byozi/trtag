@@ -53,7 +53,7 @@ async def start(event):
 
 @client.on(events.NewMessage(pattern="^/help$"))
 async def help(event):
-  helptext = "**🌀 Sera Tag Bot Komutları**\n\n**/tag <sebeb> - 5-li Etiket Atar**\n\n**/etag <sebeb> - Emoji ile etiketler**\n\n**/tektag sebeb - Üyeleri Tek Tek Etiketler**\n\n**/admins sebeb - Yöneticileri Tek Tek Tag Eder**\n\n**/start - botu başlatır**\n \n /btag - __Bayrak Şeklinde Etiket Atar__ **Yeni** \n \n/durum - Botun Durumunu Gösterir \n\n/bagis : **Bağış Yapmak İstersen Basa Bilirsin.** \n \n /reklam - **Reklam Veya İş Birliği İçin Bu Komutu Kullanın.**"
+  helptext = "**🌀 Sera Tag Bot Komutlarına aşağıdan ulaşabilrisiniz. **\n\n **/start - Botun göreve başlatılmasını sağlar**\n\n **/tag <Duyurunuz> - 5-li Etiket Atar**\n\n**/etag <Duyurunuz> - Emoji ile etiketler**\n\n**/tektag sebeb - Üyeleri Tek Tek Etiketler**\n\n**/admins sebeb - Yöneticileri Tek Tek Tag Eder**\n\n /btag - **Bayrak Şeklinde Etiket Atar** \n\n /iptal - **Başlatılan etiketleme işlemini durdurur.**"
   await event.reply(helptext,
                     buttons=(
                       

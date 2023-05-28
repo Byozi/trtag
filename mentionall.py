@@ -65,7 +65,7 @@ async def help(event):
                     link_preview=False
                    )
 
-@client.on(events.NewMessage(pattern='^(?i)/cancel'))
+@client.on(events.NewMessage(pattern='^(?i)/iptal'))
 async def cancel(event):
   global anlik_calisan
   anlik_calisan.remove(event.chat_id)
@@ -118,7 +118,7 @@ async def mentionall(event):
         usrnum = 0
         usrtxt = ""
 	
-@client.on(events.NewMessage(pattern='^(?i)/cancel'))
+@client.on(events.NewMessage(pattern='^(?i)/iptal'))
 async def cancel(event):
   global anlik_calisan
   anlik_calisan.remove(event.chat_id)	
@@ -242,7 +242,7 @@ async def mentionall(event):
         usrnum = 0
         usrtxt = ""
 
-@client.on(events.NewMessage(pattern='^(?i)/cancel'))
+@client.on(events.NewMessage(pattern='^(?i)/iptal'))
 async def cancel(event):
   global anlik_calisan
   anlik_calisan.remove(event.chat_id)
@@ -307,7 +307,7 @@ async def mentionall(event):
         usrnum = 0
         usrtxt = ""
 
-@client.on(events.NewMessage(pattern='^(?i)/cancel'))
+@client.on(events.NewMessage(pattern='^(?i)/iptal'))
 async def cancel(event):
   global tekli_calisan
   tekli_calisan.remove(event.chat_id)

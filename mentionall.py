@@ -87,13 +87,13 @@ bayrak = "🏳️‍🌈 🏳️‍⚧️ 🇺🇳 🇦🇫 🇦🇽 🇦🇱 �
 async def mentionall(event):
   global anlik_calisan
   if event.is_private:
-    return await event.respond("**Bu komutu gruplar ve kanallar için geçerli❗** \n@SakirBey2 ☄️")
+    return await event.respond("**Bu komutu gruplar ve kanallar için geçerli❗**")
   
   admins = []
   async for admin in client.iter_participants(event.chat_id, filter=ChannelParticipantsAdmins):
     admins.append(admin.id)
   if not event.sender_id in admins:
-    return await event.respond("**Bu komutu sadace yoneticiler kullana bilir〽️** \n@SakirBey2 ☄️")
+    return await event.respond("**❌ Üzgünüm, Bu komutu sadace yoneticiler kullanabilir.**")
   
   if event.pattern_match.group(1):
     mode = "text_on_cmd"
@@ -180,7 +180,7 @@ async def mentionall(event):
       usrnum += 1
       usrtxt += f"[{random.choice(emoji)}](tg://user?id={usr.id}) "
       if event.chat_id not in anlik_calisan:
-        await event.respond("**İşlem başarıyla durduruldu**❌")
+        await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
         return
       if usrnum == 5:
         await client.send_message(event.chat_id, usrtxt, reply_to=msg)
@@ -222,7 +222,7 @@ async def mentionall(event):
       usrnum += 1
       usrtxt += f"[{usr.first_name}](tg://user?id={usr.id}), "
       if event.chat_id not in anlik_calisan:
-        await event.respond("**İşlem başarıyla durduruldu**❌")
+        await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
         return
       if usrnum == 5:
         await client.send_message(event.chat_id, f"{usrtxt}\n\n{msg}")
@@ -264,7 +264,7 @@ async def mentionall(event):
   async for admin in client.iter_participants(event.chat_id, filter=ChannelParticipantsAdmins):
     admins.append(admin.id)
   if not event.sender_id in admins:
-    return await event.respond("**Bu komutu sadace yoneticiler kullana bilir〽**")
+    return await event.respond("**❌ Üzgünüm, Bu komutu sadace yoneticiler kullanabilir.**")
   
   if event.pattern_match.group(1):
     mode = "text_on_cmd"
@@ -287,7 +287,7 @@ async def mentionall(event):
       usrnum += 1
       usrtxt += f"**[{usr.first_name}](tg://user?id={usr.id}), **"
       if event.chat_id not in tekli_calisan:
-        await event.respond("**İşlem Başarıyla Durduruldu**❌")
+        await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
         return
       if usrnum == 1:
         await client.send_message(event.chat_id, f"{usrtxt} {msg}")
@@ -305,7 +305,7 @@ async def mentionall(event):
       usrnum += 1
       usrtxt += f"[{usr.first_name}](tg://user?id={usr.id}),  "
       if event.chat_id not in tekli_calisan:
-        await event.respond("**İşlem başarıyla durduruldu**❌")
+        await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
         return
       if usrnum == 1:
         await client.send_message(event.chat_id, usrtxt, reply_to=msg)

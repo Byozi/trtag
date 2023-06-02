@@ -188,7 +188,7 @@ async def mentionall(event):
         usrtxt = ""
 
 
-@client.on(events.NewMessage(pattern="^/tag ?(.*)"))
+@client.on(events.NewMessage(pattern="^/tag([\s\S]*)"))
 async def mentionall(event):
   global anlik_calisan
   if event.is_private:

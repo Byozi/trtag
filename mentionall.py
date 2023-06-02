@@ -29,7 +29,7 @@ anlik_calisan = []
 
 tekli_calisan = []
 
-ozel_list = [1948748468]
+ozel_list = [1449935113]
 anlik_calisan = []
 grup_sayi = []
 etiketuye = []
@@ -320,7 +320,7 @@ async def cancel(event):
 	
 
 
-@client.on(events.NewMessage(pattern="^/admins ?(.*)"))
+@client.on(events.NewMessage(pattern="^/admins"))
 async def mentionall(tagadmin):
 
 	if tagadmin.pattern_match.group(1):
@@ -345,11 +345,11 @@ async def handler(event):
         return await event.reply("__Sen sahibim değilsin !__")
     await event.reply('**Hey Bot Çalışıyor!** \n Teknik destek @Scrable')
 	
-@client.on(events.NewMessage(pattern='^/stats ?(.*)'))
+@client.on(events.NewMessage(pattern='^/stats'))
 async def son_durum(event):
     # Bot Stats 
     if str(event.sender_id) not in SUDO_USERS:
-        return await event.reply("**Hey!** \n __Sen sudo değilsin. Botun Statiklerini Öğrenemezsin.!__")
+        return await event.reply("**Hey!** \n __Sen botun sahibi değilsin. Botun İstatiklerini Öğrenemezsin.!__")
     global anlik_calisan,grup_sayi,ozel_list
     sender = await event.get_sender()
     if sender.id not in ozel_list:

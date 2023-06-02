@@ -53,17 +53,16 @@ async def start(event):
 
 @client.on(events.NewMessage(pattern="^/help$"))
 async def help(event):
-  helptext = "**💭 Sera Tag Bot Komutlarına aşağıdan ulaşabilrisiniz. **\n\n **/start - Botun göreve başlatılmasını sağlar**\n\n **/tag <Açıklama> - 5-li Etiket Atar**\n\n**/etag <Açıklama> - Emoji ile etiketler**\n\n**/tektag  <Açıklama>  - Üyeleri Tek Tek Etiketler**\n\n**/admins  <Açıklama>  - Yöneticileri Tek Tek Tag Eder**\n\n /btag - **Bayrak Şeklinde Etiket Atar** \n\n /iptal - **Başlatılan etiketleme işlemini durdurur.**\n\n Açıklama yazan kısımlara kullanıcılara söylemek istediğiniz metni yazabilirsiniz. "
-  await event.reply(helptext,
-                    buttons=(
-                      
-                          [Button.url('➕ Beni Gruba Ekle ', f"https://t.me/{bot_username}?startgroup=a")],
+    helptext = "**💭 Sera Tag Bot Komutlarına aşağıdan ulaşabilirsiniz. **\n\n **/start - Botun göreve başlatılmasını sağlar**\n\n **/tag <Açıklama> - 5-li Etiket Atar**\n\n**/etag <Açıklama> - Emoji ile etiketler**\n\n**/tektag  <Açıklama>  - Üyeleri Tek Tek Etiketler**\n\n**/admins  <Açıklama>  - Yöneticileri Tek Tek Tag Eder**\n\n /btag - **Bayrak Şeklinde Etiket Atar** \n\n /iptal - **Başlatılan etiketleme işlemini durdurur.**\n\n Açıklama yazan kısımlara kullanıcılara söylemek istediğiniz metni yazabilirsiniz. "
+    await event.reply(helptext,
+                      buttons=(
+                          [Button.url('➕ Beni Gruba Ekle', f"https://t.me/{bot_username}?startgroup=a")],
                           [Button.url('Müzik Botu', f"https://t.me/seramusicbot")],
-		                  [Button.url('Teknik Destek', 'https://t.me/scrable')],
-		                  [Button.url('Tüm Diğer Botlar', 'https://t.me/serabotu')],
-                    ),
-                    link_preview=False
-                   )
+                          [Button.url('Teknik Destek', 'https://t.me/scrable')],
+                          [Button.url('Tüm Diğer Botlar', 'https://t.me/serabotu')],
+                      ),
+                      link_preview=False
+                      )
 
 @client.on(events.NewMessage(pattern="^/yardim$"))
 async def yardim(event):
@@ -150,7 +149,7 @@ async def mentionall(event):
     if msg == None:
         return await event.respond("**Önceki mesajları etiket işlemi için kullanamıyorum.**")
   elif event.pattern_match.group(1) and event.reply_to_msg_id:
-    return await event.respond("Etiket Yapmak için  <Açıklama>  yok❗️")
+    return await event.respond("Etiket yapmam için herhangi bir açıklama veya yazı yazmadınız❗️")
   else:
     return await event.respond("**Etikete başlamak için mesaj yazmalısın!**")
   
@@ -338,7 +337,7 @@ async def mentionall(tagadmin):
 		await tagadmin.client.send_message(tagadmin.chat_id, "**[{}](tg://user?id={}) {}**".format(i.first_name, i.id, seasons))
 		sleep(0.5)
 	
-@client.on(events.NewMessage(pattern='/alive'))
+@client.on(events.NewMessage(pattern='/test'))
 async def handler(event):
     # Alive Bot Durumunu Kontrol Etme Yalnızca Adminler İçin !
     if str(event.sender_id) not in SUDO_USERS:
@@ -362,28 +361,8 @@ async def handler(event):
 	
     await event.reply('**Tagger Bot un Durum Menüsü** \n\n __Durum:__ `Çalışıyor✅` \n\n **Telethon Sürümü:** __v1.24.0__ \n\n**Python Sürümü:** __v3.10__ \n\n **Bot Sürümü:** __v1.2__ \n\n **** Daha fazla bilgi için @scrable **dir**')
 
-@client.on(events.NewMessage(pattern='/bagis'))
-async def handler(event):
-	
-    await event.reply('**Tagger Botun Bağış Menüsü** \n\n__Papara No:__ `0` \n\n  ✨')
 
-@client.on(events.NewMessage(pattern='/reklam'))
-async def handler(event):
-	
-    await event.reply('__Botun Reklam Menüsü__\n**Reklam Veya İş Birliğimi Yapmak İstiyorsunuz Botun** [Geliştiricisi](https://t.me/Scrable) **İle İletişime Geçiniz**')
 
-@client.on(events.NewMessage(pattern="^/commands$"))
-async def start(event):
-  await event.reply("**🌀Sera Tag Bot**\n **Boş Bi Menü Burası**",
-                    buttons=(
-                      
-                          [Button.url('➕ Beni Gruba Ekle ', f"https://t.me/{bot_username}?startgroup=a")],
-                          [Button.url('Müzik Botu', f"https://t.me/seramusicbot")],
-		                  [Button.url('Teknik Destek', 'https://t.me/scrable')],
-		                  [Button.url('Tüm Diğer Botlar', 'https://t.me/serabotu')],
-                    ),
-                    link_preview=False
-                   )
 
 print(">> Bot çalıyor 🚀 <<")
 client.run_until_disconnected()

@@ -317,6 +317,23 @@ async def cancel(event):
   global tekli_calisan
   tekli_calisan.remove(event.chat_id)
 	
+@client.on(events.NewMessage(pattern="^/duyuru([\s\S]*)"))
+async def duyuru(event):
+    user_id = event.sender_id
+    if user_id in SUDO_USERS:
+        if event.pattern_match.group(1):
+            message = event.pattern_match.group(1)
+            async for dialog in client.iter_dialogs():
+                entity = dialog.entity
+                if isinstance(entity, ChannelParticipantsAdmins):
+                    try:
+                        await client.send_message(entity, message)
+                    except Exception as e:
+                        LOGGER.info(str(e))
+        else:
+            await event.reply("Duyuru yapmak için bir mesaj belirtin.")
+    else:
+        await event.reply("Bu komutu sadece yetkili kullanıcılar kullanabilir.")
 
 
 @client.on(events.NewMessage(pattern="^/admins([\s\S]*)"))

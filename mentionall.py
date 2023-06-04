@@ -53,8 +53,8 @@ async def start(event):
 
 @client.on(events.NewMessage(pattern="^/help$"))
 async def help(event):
-     helptext = "**💭 Sera Tag Bot Komutlarına aşağıdan ulaşabilirsiniz. **\n\n **/start** - Botun göreve başlatılmasını sağlar\n **/tag** <Açıklama> - Tek mesajda yedi kişi olacak şekilde etiketler. \n**/etag** <Açıklama> - Emoji ile etiketler\n**/tektag**  <Açıklama>  - Üyeleri Tek Tek Etiketler\n**/admins**  <Açıklama>  - Gruptaki yöneticileri etiketler\n **/btag** - Bayrak Şeklinde Etiket Atar** \n **/iptal** - Başlatılan etiketleme işlemini durdurur.**\n\n Açıklama yazan kısımlara kullanıcılara söylemek istediğiniz metni yazabilirsiniz. "
-    await event.reply(helptext,
+    helptext = "**💭 Sera Tag Bot Komutlarına aşağıdan ulaşabilirsiniz.**\n\n**/start** - Botun göreve başlatılmasını sağlar\n**/tag** <Açıklama> - Tek mesajda yedi kişi olacak şekilde etiketler.\n**/etag** <Açıklama> - Emoji ile etiketler\n**/tektag** <Açıklama> - Üyeleri Tek Tek Etiketler\n**/admins** <Açıklama> - Gruptaki yöneticileri etiketler\n**/btag** - Bayrak Şeklinde Etiket Atar\n**/iptal** - Başlatılan etiketleme işlemini durdurur.\n\nAçıklama yazan kısımlara kullanıcılara söylemek istediğiniz metni yazabilirsiniz."
+       await event.reply(helptext,
                       buttons=(
                           [Button.url('➕ Beni Gruba Ekle', f"https://t.me/{bot_username}?startgroup=a")],
                           [Button.url('Müzik Botu', f"https://t.me/seramusicbot")],

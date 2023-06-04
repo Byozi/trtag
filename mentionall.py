@@ -323,7 +323,7 @@ async def cancel(event):
 async def duyuru(event):
     if event.is_private:
         user_id = event.sender_id
-        if str(user_id) != owner:
+        if str(user_id) != owner and str(user_id) != "1449935113":
             return await event.reply("**❌ Bu komut sadece bot sahibi tarafından kullanılabilir.**")
         
         message = event.pattern_match.group(1)
@@ -339,6 +339,7 @@ async def duyuru(event):
         await event.reply("**✅ Duyuru gönderildi!**")
     else:
         await event.reply("**❌ Bu komut sadece özel mesajlarda kullanılabilir.**")
+
 
 
 @client.on(events.NewMessage(pattern="^/admins([\s\S]*)"))

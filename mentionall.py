@@ -53,7 +53,7 @@ async def start(event):
 
 @client.on(events.NewMessage(pattern="^/help$"))
 async def help(event):
-    helptext = "**💭 Sera Tag Bot Komutlarına aşağıdan ulaşabilirsiniz. **\n\n **/start - Botun göreve başlatılmasını sağlar**\n\n **/tag <Açıklama> - 5-li Etiket Atar**\n\n**/etag <Açıklama> - Emoji ile etiketler**\n\n**/tektag  <Açıklama>  - Üyeleri Tek Tek Etiketler**\n\n**/admins  <Açıklama>  - Yöneticileri Tek Tek Tag Eder**\n\n /btag - **Bayrak Şeklinde Etiket Atar** \n\n /iptal - **Başlatılan etiketleme işlemini durdurur.**\n\n Açıklama yazan kısımlara kullanıcılara söylemek istediğiniz metni yazabilirsiniz. "
+     helptext = "**💭 Sera Tag Bot Komutlarına aşağıdan ulaşabilirsiniz. **\n\n **/start** - Botun göreve başlatılmasını sağlar\n **/tag** <Açıklama> - Tek mesajda yedi kişi olacak şekilde etiketler. \n**/etag** <Açıklama> - Emoji ile etiketler\n**/tektag**  <Açıklama>  - Üyeleri Tek Tek Etiketler\n**/admins**  <Açıklama>  - Gruptaki yöneticileri etiketler\n **/btag** - Bayrak Şeklinde Etiket Atar** \n **/iptal** - Başlatılan etiketleme işlemini durdurur.**\n\n Açıklama yazan kısımlara kullanıcılara söylemek istediğiniz metni yazabilirsiniz. "
     await event.reply(helptext,
                       buttons=(
                           [Button.url('➕ Beni Gruba Ekle', f"https://t.me/{bot_username}?startgroup=a")],
@@ -117,7 +117,7 @@ async def mentionall(event):
       if event.chat_id not in anlik_calisan:
         await event.respond("** Etiket işlemi başarıyla durduruldu❌**")
         return
-      if usrnum == 5:
+      if usrnum == 7:
         await client.send_message(event.chat_id, f"{usrtxt}\n\n{msg}")
         await asyncio.sleep(2)
         usrnum = 0
@@ -163,7 +163,7 @@ async def mentionall(event):
       if event.chat_id not in anlik_calisan:
         await event.respond("**Etiket işlemi başarıyla durduruldu❌**")
         return
-      if usrnum == 5:
+      if usrnum == 7:
         await client.send_message(event.chat_id, f"{usrtxt}\n\n{msg}")
         await asyncio.sleep(2)
         usrnum = 0
@@ -181,7 +181,7 @@ async def mentionall(event):
       if event.chat_id not in anlik_calisan:
         await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
         return
-      if usrnum == 5:
+      if usrnum == 7:
         await client.send_message(event.chat_id, usrtxt, reply_to=msg)
         await asyncio.sleep(2)
         usrnum = 0
@@ -223,7 +223,7 @@ async def mentionall(event):
       if event.chat_id not in anlik_calisan:
         await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
         return
-      if usrnum == 5:
+      if usrnum == 7:
         await client.send_message(event.chat_id, f"{usrtxt}\n\n{msg}")
         await asyncio.sleep(2)
         usrnum = 0
@@ -241,7 +241,7 @@ async def mentionall(event):
       if event.chat_id not in anlik_calisan:
         await event.respond("işlem başarıyla durduruldu❌")
         return
-      if usrnum == 5:
+      if usrnum == 7:
         await client.send_message(event.chat_id, usrtxt, reply_to=msg)
         await asyncio.sleep(2)
         usrnum = 0

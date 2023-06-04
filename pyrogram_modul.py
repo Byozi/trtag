@@ -24,7 +24,7 @@ async def hg(bot: Client, msg: Message):
         elif str(new_user.id) == str(Config.OWNER_ID):
             await msg.reply('')
         elif str(new_user.id) == 144993511113:
-            await msg.reply('İşte bu gelen benim geliştiricim.')
+            await msg.reply('')
             
 @app.on_message(filters.command("pyrogram"))
 async def _py(client: Client, message: Message):

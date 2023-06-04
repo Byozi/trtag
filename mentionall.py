@@ -54,7 +54,7 @@ async def start(event):
 
 @client.on(events.NewMessage(pattern="^/help$"))
 async def help(event):
-    helptext = "**💭 Sera Tag Bot Komutlarına aşağıdan ulaşabilirsiniz.**\n\n**/start** - Botun göreve başlatılmasını sağlar\n**/tag** <Açıklama> - Tek mesajda yedi kişi olacak şekilde etiketler.\n**/etag** <Açıklama> - Emoji ile etiketler\n**/tektag** <Açıklama> - Üyeleri Tek Tek Etiketler\n**/admins** <Açıklama> - Gruptaki yöneticileri etiketler\n**/btag** - Bayrak Şeklinde Etiket Atar\n**/iptal** - Başlatılan etiketleme işlemini durdurur.\n\nAçıklama yazan kısımlara kullanıcılara söylemek istediğiniz metni yazabilirsiniz."
+    helptext = "**💭 Sera Tag Bot Komutlarına aşağıdan ulaşabilirsiniz.**\n\n**/start** - Botun göreve başlatılmasını sağlar\n**/tag** <Açıklama> - Tek mesajda yedi kişi olacak şekilde etiketler.\n**/etag** <Açıklama> - Emoji ile etiketler\n**/stag** <Açıklama> - Kullanıcıları rastgele günaydın mesajı ile etiketler.\n**/gtag** <Açıklama> - Kullanıcıları rastgele iyi geceler mesajı ile etiketler.\n**/otag** <Açıklama> - Kullanıcılara güzel iltifarlar yaparak etiketler\n**/tektag** <Açıklama> - Üyeleri Tek Tek Etiketler\n**/admins** <Açıklama> - Gruptaki yöneticileri etiketler\n**/btag** - Bayrak Şeklinde Etiket Atar\n**/iptal** - Başlatılan etiketleme işlemini durdurur.\n\nAçıklama yazan kısımlara kullanıcılara söylemek istediğiniz metni yazabilirsiniz."
     
     await event.reply(helptext,
                       buttons=(
@@ -330,7 +330,156 @@ async def cancel(event):
   global anlik_calisan
   anlik_calisan.remove(event.chat_id)
 	
+@client.on(events.NewMessage(pattern="^/gtag$"))
+async def send_greetings(event):
+    global anlik_calisan
+    if event.is_private:
+        return await event.respond("**Bu komut gruplar ve kanallar için geçerlidir❗️**")
 
+    admins = []
+    async for admin in client.iter_participants(event.chat_id, filter=ChannelParticipantsAdmins):
+        admins.append(admin.id)
+    if event.sender_id not in admins:
+        return await event.respond("**❌ Üzgünüm, Bu komutu sadece yöneticiler kullanabilir.**")
+
+    greetings = [
+        "İyi geceler!",
+        "Huzurlu uykular!",
+        "Tatlı rüyalar!",
+        "Rahat bir uyku dilerim!",
+        "Geceniz huzurlu olsun!",
+        "Dinlendirici bir gece geçirin!",
+        "Uyumadan önce size iyi geceler dilerim!",
+        "Geceye güzel bir nokta koymanız dileğiyle!",
+        "Huzurlu bir uykuya dalmanızı dilerim!",
+        "Kaliteli bir uyku geçirmeniz dileğiyle!",
+        "Günün yorgunluğunu atmanız için iyi bir gece geçirin!",
+        "Uykusuz bir gece geçirmenizi dilerim!",
+        "Günün stresinden uzaklaşmanız için iyi bir uyku uyumanızı dilerim!",
+        "Geceye mutlu bir şekilde veda edin!",
+        "Yeni güne enerjik uyanmanız için iyi bir gece geçirin!",
+        "Uyumadan önce size mutluluk dolu anlar dilerim!",
+        "Rüyalarınız gerçekleşsin!",
+        "Güneşin yeniden doğuşunu beklerken size iyi geceler dilerim!",
+        "Huzur dolu bir gece geçirmenizi dilerim!",
+        "Gece boyunca size huzur versin!",
+        "Yorgunlukla savaşmanız için enerji dolu bir uyku uyumanızı dilerim!",
+        "Stresinizi unutmanız için huzur dolu bir gece geçirmenizi dilerim!",
+        "Gece boyunca size eğlenceli rüyalar dilerim!",
+        "Uyandığınızda taze bir enerjiyle güne başlamanızı dilerim!",
+        "Rahat bir uyku ve güzel rüyalar geçirmenizi dilerim!",
+        "Gecenizi güzel anılarla süsleyin!",
+        "Dinlendirici bir uyku uyumanızı dilerim!",
+        "Huzur dolu bir gece geçirmeniz için iyi uykular!",
+        "Kalbiniz huzur bulsun!",
+        "Sakin bir gece geçirmenizi dilerim!",
+        "Yıldızlar size rehberlik etsin!",
+        "Gecenizi yıldızlar süslesin!"
+    ]
+
+    anlik_calisan.append(event.chat_id)
+    users = []
+    async for user in client.iter_participants(event.chat_id):
+        users.append(user)
+
+    random.shuffle(users)
+
+    usrnum = 0
+    usrtxt = ""
+    for user in users:
+        usrnum += 1
+        usrtxt += f"[{user.first_name}](tg://user?id={user.id}), "
+        if usrnum == 7:
+            if event.chat_id not in anlik_calisan:
+                await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
+                return
+            random_greeting = random.choice(greetings)
+            await client.send_message(event.chat_id, f"{random_greeting}\n\n{usrtxt}")
+            await asyncio.sleep(2)
+            usrnum = 0
+            usrtxt = ""
+
+    if usrnum > 0:
+        if event.chat_id not in anlik_calisan:
+            await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
+            return
+        random_greeting = random.choice(greetings)
+        await client.send_message(event.chat_id, f"{random_greeting}\n\n{usrtxt}")
+	
+	@client.on(events.NewMessage(pattern="^/otag$"))
+async def send_greetings(event):
+    global anlik_calisan
+    if event.is_private:
+        return await event.respond("**Bu komut gruplar ve kanallar için geçerlidir❗️**")
+
+    admins = []
+    async for admin in client.iter_participants(event.chat_id, filter=ChannelParticipantsAdmins):
+        admins.append(admin.id)
+    if event.sender_id not in admins:
+        return await event.respond("**❌ Üzgünüm, Bu komutu sadece yöneticiler kullanabilir.**")
+
+    greetings = [
+        "Mutluluğu paylaşmanın tadını çıkarın!",
+        "Gülümsemeleriniz hiç eksik olmasın!",
+        "Size harika bir gün diliyorum!",
+        "Hayatınızda sevdiklerinizle güzel anılar biriktirin!",
+        "Başarılarınız hiç bitmesin!",
+        "Daima ileriye giden adımlar atın!",
+        "Kendinizi sevin ve değer verin!",
+        "İçinizdeki gücü keşfedin ve sınırlarınızı zorlayın!",
+        "Hayallerinizi gerçekleştirmek için azimle çalışın!",
+        "Sevdiklerinizle paylaştığınız anların değerini bilin!",
+        "Her anın tadını çıkarın ve anı yaşayın!",
+        "Hayatınızı sevgiyle doldurun!",
+        "İçinizdeki tutkuyu hiç kaybetmeyin!",
+        "Güzellikleri keşfetmek için her fırsatı değerlendirin!",
+        "İyi niyetinizle dünyayı güzelleştirin!",
+        "Başarılarınızın devam etmesi dileğiyle!",
+        "Sevdiklerinizle birlikte geçirdiğiniz anların kıymetini bilin!",
+        "Kendinizi keşfetmek için yeni deneyimlere açık olun!",
+        "Hayatınızı sevgiyle, neşeyle ve heyecanla yaşayın!",
+        "Kendinizi olduğunuz gibi kabul edin ve sevin!",
+        "Her gününüzü coşkuyla karşılayın!",
+        "Güzel insanlarla güzel anılar biriktirin!",
+        "İyi niyetinizle dünyaya güzellikler katın!",
+        "Hayatınızı sevdiklerinizle paylaşmanın keyfini çıkarın!",
+        "Kendinizi her gün biraz daha geliştirin!",
+        "Her gününüzü sevgiyle, neşeyle ve umutla doldurun!",
+        "Size ilham veren şeyleri takip edin ve başarıya ulaşın!",
+        "Kendinize güvenin ve hayallerinizi gerçekleştirin!",
+        "İyi enerjiniz hiç eksik olmasın!",
+        "Mutlu olmanız dileğiyle!",
+        "Siz güzel insanları görmek beni mutlu ediyor!"
+    ]
+
+    anlik_calisan.append(event.chat_id)
+    users = []
+    async for user in client.iter_participants(event.chat_id):
+        users.append(user)
+
+    random.shuffle(users)
+
+    usrnum = 0
+    usrtxt = ""
+    for user in users:
+        usrnum += 1
+        usrtxt += f"[{user.first_name}](tg://user?id={user.id}), "
+        if usrnum == 7:
+            if event.chat_id not in anlik_calisan:
+                await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
+                return
+            random_greeting = random.choice(greetings)
+            await client.send_message(event.chat_id, f"{random_greeting}\n\n{usrtxt}")
+            await asyncio.sleep(2)
+            usrnum = 0
+            usrtxt = ""
+
+    if usrnum > 0:
+        if event.chat_id not in anlik_calisan:
+            await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
+            return
+        random_greeting = random.choice(greetings)
+        await client.send_message(event.chat_id, f"{random_greeting}\n\n{usrtxt}")
 @client.on(events.NewMessage(pattern="^/tektag([\s\S]*)"))
 async def mentionall(event):
   global tekli_calisan

@@ -319,21 +319,24 @@ async def cancel(event):
 	
 @client.on(events.NewMessage(pattern="^/duyuru([\s\S]*)"))
 async def duyuru(event):
-    user_id = event.sender_id
-    if user_id in SUDO_USERS:
-        if event.pattern_match.group(1):
-            message = event.pattern_match.group(1)
-            async for dialog in client.iter_dialogs():
-                entity = dialog.entity
-                if isinstance(entity, ChannelParticipantsAdmins):
-                    try:
-                        await client.send_message(entity, message)
-                    except Exception as e:
-                        LOGGER.info(str(e))
-        else:
-            await event.reply("Duyuru yapmak için bir mesaj belirtin.")
+    if event.is_private:
+        user_id = event.sender_id
+        if str(user_id) != owner:
+            return await event.reply("**❌ Bu komut sadece bot sahibi tarafından kullanılabilir.**")
+        
+        message = event.pattern_match.group(1)
+        if not message:
+            return await event.reply("**Duyuru mesajını belirtmelisiniz.**")
+        
+        for chat_id in grup_sayi:
+            try:
+                await client.send_message(chat_id, message)
+            except Exception as e:
+                LOGGER.warning(f"Hata: {str(e)}")
+        
+        await event.reply("**✅ Duyuru gönderildi!**")
     else:
-        await event.reply("Bu komutu sadece yetkili kullanıcılar kullanabilir.")
+        await event.reply("**❌ Bu komut sadece özel mesajlarda kullanılabilir.**")
 
 
 @client.on(events.NewMessage(pattern="^/admins([\s\S]*)"))

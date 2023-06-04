@@ -191,6 +191,8 @@ async def mentionall(event):
         usrtxt = ""
 
 
+import random
+
 @client.on(events.NewMessage(pattern="^/stag$"))
 async def send_greetings(event):
     global anlik_calisan
@@ -237,14 +239,31 @@ async def send_greetings(event):
     ]
 
     anlik_calisan.append(event.chat_id)
-    random_greetings = random.sample(greetings, 30)
-    for greeting in random_greetings:
+    users = []
+    async for user in client.iter_participants(event.chat_id):
+        users.append(user)
+    
+    random.shuffle(users)
+    
+    usrnum = 0
+    usrtxt = ""
+    for user in users:
+        usrnum += 1
+        usrtxt += f"[{user.first_name}](tg://user?id={user.id}), "
+        if usrnum == 7:
+            if event.chat_id not in anlik_calisan:
+                await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
+                return
+            await client.send_message(event.chat_id, f"{msg}\n\n{usrtxt}")
+            await asyncio.sleep(2)
+            usrnum = 0
+            usrtxt = ""
+
+    if usrnum > 0:
         if event.chat_id not in anlik_calisan:
             await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
             return
-        await client.send_message(event.chat_id, greeting)
-        await asyncio.sleep(2)
-
+        await client.send_message(event.chat_id, f"{msg}\n\n{usrtxt}")
 
 
 @client.on(events.NewMessage(pattern="^/tag([\s\S]*)"))

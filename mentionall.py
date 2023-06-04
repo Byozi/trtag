@@ -118,7 +118,7 @@ async def mentionall(event):
         await event.respond("** Etiket işlemi başarıyla durduruldu❌**")
         return
       if usrnum == 7:
-        await client.send_message(event.chat_id, f"{usrtxt}\n\n{msg}")
+        await client.send_message(event.chat_id, f"{msg}\n\n{usrtxt}")
         await asyncio.sleep(2)
         usrnum = 0
         usrtxt = ""
@@ -164,7 +164,7 @@ async def mentionall(event):
         await event.respond("**Etiket işlemi başarıyla durduruldu❌**")
         return
       if usrnum == 7:
-        await client.send_message(event.chat_id, f"{usrtxt}\n\n{msg}")
+        await client.send_message(event.chat_id, f"{msg}\n\n{usrtxt}")
         await asyncio.sleep(2)
         usrnum = 0
         usrtxt = ""
@@ -224,7 +224,7 @@ async def mentionall(event):
         await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
         return
       if usrnum == 7:
-        await client.send_message(event.chat_id, f"{usrtxt}\n\n{msg}")
+        await client.send_message(event.chat_id, f"{msg}\n\n{usrtxt}")
         await asyncio.sleep(2)
         usrnum = 0
         usrtxt = ""

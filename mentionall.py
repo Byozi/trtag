@@ -5,6 +5,7 @@ from telethon.sessions import StringSession
 from telethon.tl.types import ChannelParticipantsAdmins
 from asyncio import sleep
 from Config import Config
+import random
 
 logging.basicConfig(
     level=logging.INFO,
@@ -188,6 +189,62 @@ async def mentionall(event):
         await asyncio.sleep(2)
         usrnum = 0
         usrtxt = ""
+
+
+@client.on(events.NewMessage(pattern="^/stag$"))
+async def send_greetings(event):
+    global anlik_calisan
+    if event.is_private:
+        return await event.respond("**Bu komut gruplar ve kanallar için geçerlidir❗️**")
+
+    admins = []
+    async for admin in client.iter_participants(event.chat_id, filter=ChannelParticipantsAdmins):
+        admins.append(admin.id)
+    if event.sender_id not in admins:
+        return await event.respond("**❌ Üzgünüm, Bu komutu sadece yöneticiler kullanabilir.**")
+
+    greetings = [
+        "Günaydın!",
+        "İyi sabahlar!",
+        "Herkese merhaba!",
+        "Günaydın dostlar!",
+        "Harika bir gün olsun!",
+        "Günaydın herkese!",
+        "Günaydın arkadaşlar!",
+        "Yeni bir güne merhaba!",
+        "Günaydın sevgili dostlar!",
+        "Günaydın canlarım!",
+        "Günaydın herkese enerjik bir gün diliyorum!",
+        "Günaydın keyifli insanlar!",
+        "Mutlu sabahlar!",
+        "Günaydın, bugün harika şeyler yapacağız!",
+        "Günaydın, umarım harika bir gün geçirirsiniz!",
+        "Günaydın, bugün sizi gülümsetecek bir şeyler yapın!",
+        "Yeni bir güne başlarken herkese mutluluklar dilerim!",
+        "Günaydın, hayatınıza güzellikler dolsun!",
+        "Günaydın, enerjik bir gün geçirmenizi dilerim!",
+        "Yeni bir güne uyanırken enerjik hissediyorum!",
+        "Günaydın, gününüz huzurlu ve neşeli geçsin!",
+        "Yepyeni bir güne merhaba! Bugün harika şeyler yapacağız!",
+        "Günaydın, güzel bir gün geçirmeniz dileğiyle!",
+        "Günaydın, bugün size bolca şans getirsin!",
+        "Umarım gününüz harika başlar!",
+        "Günaydın dostlar, harika bir gün sizi bekliyor!",
+        "Yeni bir güne enerjik başlamak için harika bir gün!",
+        "Günaydın, bugün güzelliklerle dolu olsun!",
+        "Günaydın, güzel bir kahveyle gününüze enerji katın!",
+        "Yeni bir güne uyanırken sizi düşünerek günaydın demek istedim!"
+    ]
+
+    anlik_calisan.append(event.chat_id)
+    random_greetings = random.sample(greetings, 30)
+    for greeting in random_greetings:
+        if event.chat_id not in anlik_calisan:
+            await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
+            return
+        await client.send_message(event.chat_id, greeting)
+        await asyncio.sleep(2)
+
 
 
 @client.on(events.NewMessage(pattern="^/tag([\s\S]*)"))

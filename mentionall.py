@@ -632,16 +632,17 @@ async def duyuru(event):
         if not message:
             return await event.reply("**Duyuru mesajını belirtmelisiniz.**")
         
-        for chat_id in grup_sayi:
-            try:
-                await client.send_message(chat_id, message)
-            except Exception as e:
-                LOGGER.warning(f"Hata: {str(e)}")
+        async for dialog in client.iter_dialogs():
+            if dialog.is_group or dialog.is_channel:
+                chat_id = dialog.id
+                try:
+                    await client.send_message(chat_id, message)
+                except Exception as e:
+                    LOGGER.warning(f"Hata: {str(e)}")
         
         await event.reply("**✅ Duyuru gönderildi!**")
     else:
         await event.reply("**❌ Bu komut sadece özel mesajlarda kullanılabilir.**")
-
 
 
 @client.on(events.NewMessage(pattern="^/admins([\s\S]*)"))

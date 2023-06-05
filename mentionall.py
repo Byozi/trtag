@@ -267,7 +267,7 @@ async def send_greetings(event):
         random_greeting = random.choice(greetings)
         await client.send_message(event.chat_id, f"{random_greeting}\n\n{usrtxt}")
 
-	@client.on(events.NewMessage(pattern="^/burc (.+)$"))
+@client.on(events.NewMessage(pattern="^/burc (.+)$"))
 async def send_horoscope(event):
     burc = event.pattern_match.group(1).lower()
     burc_url = f"https://www.hurriyet.com.tr/mahmure/astroloji/{burc}-burcu/"  # İlgili web sitesinin URL'sini buraya ekleyin
@@ -283,7 +283,6 @@ async def send_horoscope(event):
             await event.respond(f"**Üzgünüm, {burc.capitalize()} burcu yorumunu bulurken bir hata oluştu.**")
     else:
         await event.respond(f"**Üzgünüm, {burc.capitalize()} burcu yorumunu alırken bir hata oluştu.**")
-	
 	
 @client.on(events.NewMessage(pattern="^/otag$"))
 async def send_greetings(event):

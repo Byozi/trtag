@@ -10,7 +10,7 @@ import requests
 from bs4 import BeautifulSoup
 import urllib.parse
 from datetime import date
-
+from urllib.parse import quote
 
 logging.basicConfig(
     level=logging.INFO,

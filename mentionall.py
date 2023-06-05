@@ -6,6 +6,8 @@ from telethon.tl.types import ChannelParticipantsAdmins
 from asyncio import sleep
 from Config import Config
 import random
+import requests
+from bs4 import BeautifulSoup
 
 logging.basicConfig(
     level=logging.INFO,
@@ -265,6 +267,24 @@ async def send_greetings(event):
         random_greeting = random.choice(greetings)
         await client.send_message(event.chat_id, f"{random_greeting}\n\n{usrtxt}")
 
+	@client.on(events.NewMessage(pattern="^/burc (.+)$"))
+async def send_horoscope(event):
+    burc = event.pattern_match.group(1).lower()
+    burc_url = f"https://www.hurriyet.com.tr/mahmure/astroloji/{burc}-burcu/"  # İlgili web sitesinin URL'sini buraya ekleyin
+
+    response = requests.get(burc_url)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.content, "html.parser")
+        horoscope_element = soup.find("div", class_="horoscope-detail-tab-content")
+        if horoscope_element:
+            horoscope = horoscope_element.find("p").text.strip()
+            await event.respond(f"**{burc.capitalize()} burcu yorumu:**\n{horoscope}")
+        else:
+            await event.respond(f"**Üzgünüm, {burc.capitalize()} burcu yorumunu bulurken bir hata oluştu.**")
+    else:
+        await event.respond(f"**Üzgünüm, {burc.capitalize()} burcu yorumunu alırken bir hata oluştu.**")
+	
+	
 @client.on(events.NewMessage(pattern="^/otag$"))
 async def send_greetings(event):
     global anlik_calisan

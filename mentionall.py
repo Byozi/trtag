@@ -270,6 +270,25 @@ async def send_greetings(event):
         random_greeting = random.choice(greetings)
         await client.send_message(event.chat_id, f"{random_greeting}\n\n{usrtxt}")
 
+def convert_to_ascii(text):
+    conversions = {
+        'ğ': 'g',
+        'ü': 'u',
+        'ş': 's',
+        'ı': 'i',
+        'ö': 'o',
+        'ç': 'c',
+        'Ğ': 'G',
+        'Ü': 'U',
+        'Ş': 'S',
+        'İ': 'I',
+        'Ö': 'O',
+        'Ç': 'C'
+    }
+    for char, repl in conversions.items():
+        text = text.replace(char, repl)
+    return text
+
 @client.on(events.NewMessage(pattern="^/burc$"))
 async def ask_horoscope(event):
     burc_listesi = [
@@ -293,7 +312,8 @@ async def send_horoscope(event):
         )
         return
 
-    burc_url = f"https://www.hurriyet.com.tr/mahmure/astroloji/{quote(unidecode(burc.lower()))}-burcu/"
+    ascii_burc = convert_to_ascii(burc)
+    burc_url = f"https://www.hurriyet.com.tr/mahmure/astroloji/{quote(ascii_burc)}-burcu/"
 
     response = requests.get(burc_url)
     if response.status_code == 200:

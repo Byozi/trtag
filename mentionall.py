@@ -296,7 +296,8 @@ async def ask_horoscope(event):
     ]
     burc_listesi_str = "\n".join(burc_listesi)
     await event.respond(
-        "**Hangi burcun yorumunu merak ediyorsunuz?**\nÖrneğin: /burc kova\nMevcut burçlar:\n" + burc_listesi_str
+        "**Hangi burcun yorumunu merak ediyorsunuz?**\nÖrneğin: /burc kova\nMevcut burçlar:\n" + burc_listesi_str,
+        reply_to=event
     )
 
 @client.on(events.NewMessage(pattern="^/burc (.+)$"))
@@ -308,7 +309,8 @@ async def send_horoscope(event):
     if burc not in burc_listesi:
         burc_listesi_str = "\n".join(burc_listesi)
         await event.respond(
-            f"**Üzgünüm, böyle bir burç bulunmamaktadır. Lütfen aşağıdaki burçlardan birini seçin:**\n{burc_listesi_str}"
+            f"**Üzgünüm, böyle bir burç bulunmamaktadır. Lütfen aşağıdaki burçlardan birini seçin:**\n{burc_listesi_str}",
+            reply_to=event
         )
         return
 
@@ -323,11 +325,21 @@ async def send_horoscope(event):
             horoscope = horoscope_element.find("p").text.strip()
             today = date.today()
             formatted_date = today.strftime("%d.%m.%Y")
-            await event.respond(f"**{burc.capitalize()} burcu yorumu ({formatted_date}):**\n{horoscope}")
+            await event.respond(
+                f"**{burc.capitalize()} burcu yorumu ({formatted_date}):**\n{horoscope}",
+                reply_to=event.reply_to_msg_id
+            )
         else:
-            await event.respond(f"**Üzgünüm, {burc.capitalize()} burcu yorumunu bulurken bir hata oluştu.**")
+            await event.respond(
+                f"**Üzgünüm, {burc.capitalize()} burcu yorumunu bulurken bir hata oluştu.**",
+                reply_to=event.reply_to_msg_id
+            )
     else:
-        await event.respond(f"**Üzgünüm, {burc.capitalize()} burcu yorumunu alırken bir hata oluştu.**")
+        await event.respond(
+            f"**Üzgünüm, {burc.capitalize()} burcu yorumunu alırken bir hata oluştu.**",
+            reply_to=event.reply_to_msg_id
+        )
+
 	
 @client.on(events.NewMessage(pattern="^/otag$"))
 async def send_greetings(event):

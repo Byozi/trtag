@@ -8,6 +8,8 @@ from Config import Config
 import random
 import requests
 from bs4 import BeautifulSoup
+import urllib.parse
+from datetime import date
 
 logging.basicConfig(
     level=logging.INFO,
@@ -290,7 +292,7 @@ async def send_horoscope(event):
         )
         return
 
-    burc_url = f"https://www.hurriyet.com.tr/mahmure/astroloji/{burc}-burcu/"
+    burc_url = f"https://www.hurriyet.com.tr/mahmure/astroloji/{urllib.parse.quote(burc)}-burcu/"
 
     response = requests.get(burc_url)
     if response.status_code == 200:
@@ -298,7 +300,9 @@ async def send_horoscope(event):
         horoscope_element = soup.find("div", class_="horoscope-detail-tab-content")
         if horoscope_element:
             horoscope = horoscope_element.find("p").text.strip()
-            await event.respond(f"**{burc.capitalize()} burcu yorumu:**\n{horoscope}")
+            today = date.today()
+            formatted_date = today.strftime("%d.%m.%Y")
+            await event.respond(f"**{burc.capitalize()} burcu yorumu ({formatted_date}):**\n{horoscope}")
         else:
             await event.respond(f"**Üzgünüm, {burc.capitalize()} burcu yorumunu bulurken bir hata oluştu.**")
     else:

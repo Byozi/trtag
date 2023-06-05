@@ -10,7 +10,7 @@ import requests
 from bs4 import BeautifulSoup
 import urllib.parse
 from datetime import date
-from unidecode import unidecode
+
 
 logging.basicConfig(
     level=logging.INFO,

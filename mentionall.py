@@ -326,7 +326,7 @@ async def send_horoscope(event):
             today = date.today()
             formatted_date = today.strftime("%d.%m.%Y")
             await event.respond(
-                f"Sevgili {event.sender.first_name} {event.sender.last_name}, işte {burc.capitalize()} burcu yorumunuz:\n\n{horoscope}",
+                f"Sevgili [{event.sender.first_name}](tg://user?id={event.sender_id}), işte {burc.capitalize()} burcu yorumunuz:\n\n{horoscope}",
                 reply_to=event.reply_to_msg_id
             )
         else:

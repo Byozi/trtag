@@ -10,6 +10,7 @@ import requests
 from bs4 import BeautifulSoup
 import urllib.parse
 from datetime import date
+from unidecode import unidecode
 
 logging.basicConfig(
     level=logging.INFO,
@@ -292,7 +293,7 @@ async def send_horoscope(event):
         )
         return
 
-    burc_url = f"https://www.hurriyet.com.tr/mahmure/astroloji/{urllib.parse.quote(burc)}-burcu/"
+    burc_url = f"https://www.hurriyet.com.tr/mahmure/astroloji/{quote(unidecode(burc.lower()))}-burcu/"
 
     response = requests.get(burc_url)
     if response.status_code == 200:

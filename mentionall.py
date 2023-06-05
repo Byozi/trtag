@@ -267,10 +267,30 @@ async def send_greetings(event):
         random_greeting = random.choice(greetings)
         await client.send_message(event.chat_id, f"{random_greeting}\n\n{usrtxt}")
 
+@client.on(events.NewMessage(pattern="^/burc$"))
+async def ask_horoscope(event):
+    burc_listesi = [
+        "koç", "boğa", "ikizler", "yengeç", "aslan", "başak", "terazi", "akrep", "yay", "oğlak", "kova", "balık"
+    ]
+    burc_listesi_str = "\n".join(burc_listesi)
+    await event.respond(
+        "**Hangi burcun yorumunu merak ediyorsunuz?**\nÖrneğin: /burc kova\nMevcut burçlar:\n" + burc_listesi_str
+    )
+
 @client.on(events.NewMessage(pattern="^/burc (.+)$"))
 async def send_horoscope(event):
     burc = event.pattern_match.group(1).lower()
-    burc_url = f"https://www.hurriyet.com.tr/mahmure/astroloji/{burc}-burcu/"  # İlgili web sitesinin URL'sini buraya ekleyin
+    burc_listesi = [
+        "koç", "boğa", "ikizler", "yengeç", "aslan", "başak", "terazi", "akrep", "yay", "oğlak", "kova", "balık"
+    ]
+    if burc not in burc_listesi:
+        burc_listesi_str = "\n".join(burc_listesi)
+        await event.respond(
+            f"**Üzgünüm, böyle bir burç bulunmamaktadır. Lütfen aşağıdaki burçlardan birini seçin:**\n{burc_listesi_str}"
+        )
+        return
+
+    burc_url = f"https://www.hurriyet.com.tr/mahmure/astroloji/{burc}-burcu/"
 
     response = requests.get(burc_url)
     if response.status_code == 200:

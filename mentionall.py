@@ -326,7 +326,7 @@ async def send_horoscope(event):
             today = date.today()
             formatted_date = today.strftime("%d.%m.%Y")
             await event.respond(
-                f"**{burc.capitalize()} burcu yorumu ({formatted_date}):**\n{horoscope}",
+                f"Sevgili {event.sender.first_name} {event.sender.last_name}, işte {burc.capitalize()} burcu yorumunuz:\n\n{horoscope}",
                 reply_to=event.reply_to_msg_id
             )
         else:

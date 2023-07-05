@@ -11,8 +11,6 @@ from bs4 import BeautifulSoup
 import urllib.parse
 from datetime import date
 from urllib.parse import quote
-from telegram import Update, Bot
-from telegram.ext import Updater, CommandHandler
 
 logging.basicConfig(
     level=logging.INFO,
@@ -43,32 +41,6 @@ grup_sayi = []
 etiketuye = []
 rxyzdev_tagTot = {}
 rxyzdev_initT = {}
-
-# /log komutuna verilecek yanıtı tanımlayan işlev
-def log_command(update: Update, context):
-    user_id = update.effective_user.id
-
-    # Sadece owner kullanıcıya izin ver
-    if user_id != OWNER_ID:
-        update.message.reply_text("Bu komutu kullanma izniniz yok!")
-        return
-
-    bot: Bot = context.bot
-
-    # Botun katıldığı grup sayısını al
-    chat_count = len(bot.get_chat_members_count())
-
-    # Botun özel mesajlarla başlatıldığı kullanıcı sayısını al
-    user_count = len(bot.get_users())
-
-    # Yanıtı oluştur
-    response = f"Bot, {chat_count} grupta aktif.\nÖzel mesajla başlatılan kullanıcı sayısı: {user_count}"
-
-    # Yanıtı gönder
-    update.message.reply_text(response)
-
- # /log komutuna log_command işlevini bağlayın
-    updater.dispatcher.add_handler(CommandHandler("log", log_command))
 
 @client.on(events.NewMessage(pattern="^/start$"))
 async def start(event):
@@ -708,16 +680,29 @@ async def handler(event):
         return await event.reply("__Sen sahibim değilsin !__")
     await event.reply('**Hey Bot Çalışıyor!** \n Teknik destek @Scrable')
 	
+grup_sayi = []
+grup_isimleri = []  # Grup isimlerini saklamak için bir liste tanımlanır
+
 @client.on(events.NewMessage(pattern='^/stats'))
 async def son_durum(event):
     # Bot Stats 
     if str(event.sender_id) not in SUDO_USERS:
         return await event.reply("**Hey!** \n __Sen botun sahibi değilsin. Botun İstatiklerini Öğrenemezsin.!__")
-    global anlik_calisan,grup_sayi,ozel_list
+    global anlik_calisan, grup_sayi, grup_isimleri, ozel_list
     sender = await event.get_sender()
     if sender.id not in ozel_list:
-      return
-    await event.respond(f"**{bot_username} İstatistikleri 🤖**\n\nToplam Grup: `{len(grup_sayi)}`\nAnlık Çalışan Grup: `{len(anlik_calisan)}`")
+        return
+    grup_isimleri_str = "\n".join(grup_isimleri)  # Grup isimlerini birleştirerek bir metin oluşturulur
+    await event.respond(f"**{bot_username} İstatistikleri 🤖**\n\nToplam Grup: `{len(grup_sayi)}`\nAnlık Çalışan Grup: `{len(anlik_calisan)}`\n\nGrup İsimleri:\n{grup_isimleri_str}")
+
+# Grup sayısı ve isimlerini güncelleme örneği:
+async def bir_grup_eklendi():
+    global grup_sayi, grup_isimleri
+    # Grup eklenirken grup_sayi listesine eklenmeli
+    # ve grup_isimleri listesine grup ismi eklenmeli
+    grup_sayi.append(grup)  # 'grup' değişkeni, eklenen grubun bilgisini içermelidir
+    grup_isimleri.append(grup_ismi)  # 'grup_ismi' değişkeni, eklenen grubun ismini içermelidir
+    # Diğer işlemler...
 
 
 @client.on(events.NewMessage(pattern='/durum'))

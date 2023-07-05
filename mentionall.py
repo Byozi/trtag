@@ -11,6 +11,8 @@ from bs4 import BeautifulSoup
 import urllib.parse
 from datetime import date
 from urllib.parse import quote
+from telegram import Update, Bot
+from telegram.ext import Updater, CommandHandler
 
 logging.basicConfig(
     level=logging.INFO,
@@ -42,7 +44,31 @@ etiketuye = []
 rxyzdev_tagTot = {}
 rxyzdev_initT = {}
 
+# /log komutuna verilecek yanıtı tanımlayan işlev
+def log_command(update: Update, context):
+    user_id = update.effective_user.id
 
+    # Sadece owner kullanıcıya izin ver
+    if user_id != OWNER_ID:
+        update.message.reply_text("Bu komutu kullanma izniniz yok!")
+        return
+
+    bot: Bot = context.bot
+
+    # Botun katıldığı grup sayısını al
+    chat_count = len(bot.get_chat_members_count())
+
+    # Botun özel mesajlarla başlatıldığı kullanıcı sayısını al
+    user_count = len(bot.get_users())
+
+    # Yanıtı oluştur
+    response = f"Bot, {chat_count} grupta aktif.\nÖzel mesajla başlatılan kullanıcı sayısı: {user_count}"
+
+    # Yanıtı gönder
+    update.message.reply_text(response)
+
+ # /log komutuna log_command işlevini bağlayın
+    updater.dispatcher.add_handler(CommandHandler("log", log_command))
 
 @client.on(events.NewMessage(pattern="^/start$"))
 async def start(event):

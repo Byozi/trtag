@@ -300,6 +300,18 @@ async def ask_horoscope(event):
         reply_to=event
     )
 
+@client.on(events.NewMessage(pattern="^/burc$"))
+async def ask_horoscope(event):
+    burc_listesi = [
+        "koç", "boğa", "ikizler", "yengeç", "aslan", "başak", "terazi", "akrep", "yay", "oğlak", "kova", "balık"
+    ]
+    burc_listesi_str = "\n".join(burc_listesi)
+    await event.respond(
+        "🏹 **Burç yorumu nasıl kullanılır**: /burc kova şeklinde burcunuzu yazarak günlük burç yorumunuzu alabilirsiniz. Hergün 23.00'dan sonra günlük yorumunuz değişir.",
+        reply_to=event
+    )
+
+
 @client.on(events.NewMessage(pattern="^/burc (.+)$"))
 async def send_horoscope(event):
     burc = event.pattern_match.group(1).lower()
@@ -322,7 +334,7 @@ async def send_horoscope(event):
         soup = BeautifulSoup(response.content, "html.parser")
         horoscope_element = soup.find("div", class_="horoscope-detail-tab-content")
         if horoscope_element:
-            horoscope = horoscope_element.find("p").text.strip()
+            horoscope = horoscope_element.find_all("p")[1].text.strip()  # İkinci <p> etiketinin içeriğini alıyoruz
             today = date.today()
             formatted_date = today.strftime("%d.%m.%Y")
             await event.respond(

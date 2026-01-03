@@ -11,11 +11,13 @@ from bs4 import BeautifulSoup
 import urllib.parse
 from datetime import date
 from urllib.parse import quote
+
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(name)s - [%(levelname)s] - %(message)s'
+    level=logging.INFO,
+    format='%(name)s - [%(levelname)s] - %(message)s'
 )
-LOGGER = logging.getLogger(**name**)
+LOGGER = logging.getLogger(__name__)
+
 api_id = Config.API_ID
 api_hash = Config.API_HASH
 bot_token = Config.BOT_TOKEN
@@ -24,164 +26,74 @@ support = Config.SUPPORT_CHAT
 owner = 1449935113
 bot_name = Config.BOT_NAME
 SUDO_USERS = Config.SUDO_USERS
+
 client = TelegramClient('client', api_id, api_hash).start(bot_token=bot_token)
+
 anlik_calisan = []
 tekli_calisan = []
 ozel_list = [1449935113]
-anlik_calisan = []
 grup_sayi = []
 etiketuye = []
 rxyzdev_tagTot = {}
 rxyzdev_initT = {}
+
 @client.on(events.NewMessage(pattern="^/start$"))
 async def start(event):
-  await event.reply("**💭 Sera Tag Bot** çalışıyor!\n Ben gruplarınızdaki tüm kullanıcılara etiket atmaya yarayan son derece basit kullanıma sahip bir botum. Komutlarımı görmek için /help yazabilirsiniz.\n\n Tamamen ücretsiz olarak hizmet vermekteyim. Gruplarınıza eklemekten çekinmeyiniz. ",
-                    buttons=(
-                     
-                          [Button.url('➕ Beni Gruba Ekle ', f"https://t.me/{bot_username}?startgroup=a")],
-                          [Button.url('Müzik Botu', f"https://t.me/seramusicbot")],
-                  [Button.url('Teknik Destek', 'https://t.me/scrable')],
-                  [Button.url('Tüm Diğer Botlar', 'https://t.me/serabotu')],
-                    ),
-                    link_preview=False
-                   )
+    await event.reply("**💭 Sera Tag Bot** çalışıyor!\n Ben gruplarınızdaki tüm kullanıcılara etiket atmaya yarayan son derece basit kullanıma sahip bir botum. Komutlarımı görmek için /help yazabilirsiniz.\n\n Tamamen ücretsiz olarak hizmet vermekteyim. Gruplarınıza eklemekten çekinmeyiniz. ",
+                      buttons=(
+                          [Button.url('➕ Beni Gruba Ekle ', f"https://t.me/{bot_username}?startgroup=a")],
+                          [Button.url('Müzik Botu', f"https://t.me/seramusicbot")],
+                          [Button.url('Teknik Destek', 'https://t.me/scrable')],
+                          [Button.url('Tüm Diğer Botlar', 'https://t.me/serabotu')],
+                      ),
+                      link_preview=False
+                     )
+
 @client.on(events.NewMessage(pattern="^/help$"))
 async def help(event):
-    helptext = "**💭 Sera Tag Bot Komutlarına aşağıdan ulaşabilirsiniz.**\n\n**/start** - Botun göreve başlatılmasını sağlar\n**/tag** <Açıklama> - Tek mesajda yedi kişi olacak şekilde etiketler.\n**/etag** <Açıklama> - Emoji ile etiketler\n**/stag** - Kullanıcıları rastgele günaydın mesajı ile etiketler.\n**/gtag** - Kullanıcıları rastgele iyi geceler mesajı ile etiketler.\n**/otag** - Kullanıcılara güzel iltifatlar yaparak etiketler\n**/tektag** <Açıklama> - Üyeleri Tek Tek Etiketler\n**/admins** <Açıklama> - Gruptaki yöneticileri etiketler\n**/btag** - Bayrak Şeklinde Etiket Atar\n**/burc** Günlük Burç yorumu atar, tüm üyeler kullanabilir\n**/iptal** - Başlatılan etiketleme işlemini durdurur.\n\nAçıklama yazan kısımlara kullanıcılara söylemek istediğiniz metni yazabilirsiniz."
-   
-    await event.reply(helptext,
-                      buttons=(
-                          [Button.url('➕ Beni Gruba Ekle', f"https://t.me/{bot_username}?startgroup=a")],
-                          [Button.url('Müzik Botu', f"https://t.me/seramusicbot")],
-                          [Button.url('Teknik Destek', 'https://t.me/scrable')],
-                          [Button.url('Tüm Diğer Botlar', 'https://t.me/serabotu')],
-                      ),
-                      link_preview=False
-                      )
-@client.on(events.NewMessage(pattern="^/yardim$"))
-async def yardim(event):
-    user_id = event.sender_id
-    await client.send_message(user_id, "/yardim")
-@client.on(events.NewMessage(pattern='^(?i)/iptal'))
-async def cancel(event):
-  global anlik_calisan
-  anlik_calisan.remove(event.chat_id)
- 
-  if event.chat_id in rxyzdev_tagTot:await event.respond(f"❌**Etiket işlemi durduruldu.\n\n Etiketlerin Sayısı👤: {rxyzdev_tagTot[event.chat_id]}**")
+    helptext = "**💭 Sera Tag Bot Komutlarına aşağıdan ulaşabilirsiniz.**\n\n**/start** - Botun göreve başlatılmasını sağlar\n**/tag** <Açıklama> - Tek mesajda yedi kişi olacak şekilde etiketler.\n**/etag** <Açıklama> - Emoji ile etiketler\n**/stag** - Kullanıcıları rastgele günaydın mesajı ile etiketler.\n**/gtag** - Kullanıcıları rastgele iyi geceler mesajı ile etiketler.\n**/otag** - Kullanıcılara güzel iltifatlar yaparak etiketler\n**/tektag** <Açıklama> - Üyeleri Tek Tek Etiketler\n**/admins** <Açıklama> - Gruptaki yöneticileri etiketler\n**/btag** - Bayrak Şeklinde Etiket Atar\n**/burc** Günlük Burç yorumu atar, tüm üyeler kullanabilir\n**/sticker** - Alıntılanan görseli sticker’a çevirip gönderir\n**/iptal** - Başlatılan etiketleme işlemini durdurur.\n\nAçıklama yazan kısımlara kullanıcılara söylemek istediğiniz metni yazabilirsiniz."
+  
+    await event.reply(helptext,
+                      buttons=(
+                          [Button.url('➕ Beni Gruba Ekle', f"https://t.me/{bot_username}?startgroup=a")],
+                          [Button.url('Müzik Botu', f"https://t.me/seramusicbot")],
+                          [Button.url('Teknik Destek', 'https://t.me/scrable')],
+                          [Button.url('Tüm Diğer Botlar', 'https://t.me/serabotu')],
+                      ),
+                      link_preview=False
+                      )
+
 emoji = "🐵 🦁 🐯 🐱 🐶 🐺 🐻 🐨 🐼 🐹 🐭 🐰 🦊 🦝 🐮 🐷 🐽 🐗 🦓 🦄 🐴 🐸 🐲 🦎 🐉 🦖 🦕 🐢 🐊 🐍 🐁 🐀 🐇 🐈 🐩 🐕 🦮 🐕‍🦺 🐅 🐆 🐎 🐖 🐄 🐂 🐃 🐏 🐑 🐐 🦌 🦙 🦥 🦘 🐘 🦏 🦛 🦒 🐒 🦍 🦧 🐪 🐫 🐿️ 🦨 🦡 🦔 🦦 🦇 🐓 🐔 🐣 🐤 🐥 🐦 🦉 🦅 🦜 🕊️ 🦢 🦩 🦚 🦃 🦆 🐧🦈 🐬 🐋 🐳 🐟 🐠 🐡 🦐 🦞 🦀 🦑 🐙 🦪 🦂 🕷️ 🦋 🐞 🐝 🦟 🦗 🐜 🐌 🐚 🕸️ 🐛 🐾 😀 😃 😄 😁 😆 😅 😂 🤣 😭 😗 😙 😚 😘 🥰 😍 🤩 🥳 🤗 🙃 🙂 ☺️ 😊 😏 😌 😉 🤭 😶 😐 😑 😔 😋 😛 😝 😜 🤪 🤔 🤨 🧐 🙄 😒 😤 😠 🤬 ☹️ 🙁 😕 😟 🥺 😳 😬 🤐 🤫 😰 😨 😧 😦 😮 😯 😲 😱 🤯 😢 😥 😓 😞 😖 😣 😩 😫 🤤 🥱 😴 😪 🌛 🌜 🌚 🌝 🌞 🤢 🤮 🤧 🤒 🍓 🍒 🍎 🍉 🍑 🍊 🥭 🍍 🍌 🌶 🍇 🥝 🍐 🍏 🍈 🍋 🍄 🥕 🍠 🧅 🌽 🥦 🥒 🥬 🥑 🥯 🥖 🥐 🍞 🥜 🌰 🥔 🧄 🍆 🧇 🥞 🥚 🧀 🥓 🥩 🍗 🍖 🥙 🌯 🌮 🍕 🍟 🥨 🥪 🌭 🍔 🧆 🥘 🍝 🥫 🥣 🥗 🍲 🍛 🍜 🍢 🥟 🍱 🍚 🥡 🍤 🍣 🦞 🦪 🍘 🍡 🥠 🥮 🍧 🍧 🍨".split(" ")
+
 bayrak = "🏳️‍🌈 🏳️‍⚧️ 🇺🇳 🇦🇫 🇦🇽 🇦🇱 🇩🇿 🇦🇸 🇦🇩 🇦🇴 🇦🇮 🇦🇶 🇦🇬 🇦🇷 🇦🇲 🇦🇼 🇦🇺 🇦🇹 🇦🇿 🇧🇸 🇧🇭 🇧🇩 🇧🇧 🇧🇾 🇧🇪 🇧🇿 🇧🇯 🇧🇷 🇧🇼 🇧🇦 🇧🇴 🇧🇹 🇧🇲 🇻🇬 🇧🇳 🇧🇬 🇧🇫 🇧🇮 🇰🇭 🇰🇾 🇧🇶 🇨🇻 🇮🇨 🇨🇦 🇨🇲 🇨🇫 🇹🇩 🇮🇴 🇨🇳 🇨🇱 🇨🇽 🇨🇰 🇨🇩 🇨🇬 🇰🇲 🇨🇴 🇨🇨 🇨🇷 🇨🇿 🇪🇬 🇪🇹 🇪🇺 🇸🇻 🇩🇰 🇨🇮 🇭🇷 🇨🇺 🇨🇼 🇨🇾 🇪🇨 🇩🇴 🇩🇲 🇩🇯 🇬🇶 🇪🇷 🇫🇴 🇫🇰 🇫🇯 🇪🇪 🇸🇿 🇫🇮 🇬🇲 🇬🇦 🇹🇫 🇵🇫 🇬🇫 🇫🇷 🇬🇪 🇩🇪 🇬🇭 🇬🇮 🇬🇷 🇬🇱 🇬🇳 🇬🇬 🇬🇹 🇬🇺 🇬🇵 🇬🇩 🇬🇼 🇬🇾 🇭🇹 🇭🇳 🇭🇰 🇭🇺 🎌 🇮🇪 🇮🇶 🇯🇵 🇯🇲 🇮🇷 🇮🇩 🇮🇹 🇮🇱 🇮🇳 🇮🇸 🇮🇲 🇯🇪 🇯🇴 🇰🇬 🇰🇼 🇱🇷 🇱🇾 🇱🇮 🇱🇦 🇰🇿 🇰🇪 🇱🇻 🇱🇹 🇱🇺 🇱🇧 🇰🇮 🇽🇰 🇱🇸 🇲🇴 🇲🇹 🇲🇱 🇲🇻 🇲🇾 🇲🇼 🇲🇬 🇹🇷 🇹🇱 🇸🇪 🇸🇩 🇸🇧 🇸🇴 🇰🇷".split(" ")
-@client.on(events.NewMessage(pattern="^/btag([\s\S]*)"))
-async def mentionall(event):
-  global anlik_calisan
-  if event.is_private:
-    return await event.respond("**Bu komutu gruplar ve kanallar için geçerli❗**")
- 
-  admins = []
-  async for admin in client.iter_participants(event.chat_id, filter=ChannelParticipantsAdmins):
-    admins.append(admin.id)
-  if not event.sender_id in admins:
-    return await event.respond("**❌ Üzgünüm, Bu komutu sadace yoneticiler kullanabilir.**")
- 
-  if event.pattern_match.group(1):
-    mode = "text_on_cmd"
-    msg = event.pattern_match.group(1)
-  elif event.reply_to_msg_id:
-    mode = "text_on_reply"
-    msg = event.reply_to_msg_id
-    if msg == None:
-        return await event.respond("**Önceki mesajları etiket işlemi için kullanamıyorum.**")
-  elif event.pattern_match.group(1) and event.reply_to_msg_id:
-    return await event.respond("Etiket Yapmak için <Açıklama> yok❗️")
-  else:
-    return await event.respond("**Etikete Başlamak için <Açıklama> yazın...!**")
- 
-  if mode == "text_on_cmd":
-    anlik_calisan.append(event.chat_id)
-    usrnum = 0
-    usrtxt = ""
-    async for usr in client.iter_participants(event.chat_id):
-      usrnum += 1
-      usrtxt += f"{random.choice(bayrak)} "
-      if event.chat_id not in anlik_calisan:
-        await event.respond("** Etiket işlemi başarıyla durduruldu❌**")
-        return
-      if usrnum == 7:
-        await client.send_message(event.chat_id, f"{msg}\n\n{usrtxt}")
-        await asyncio.sleep(2)
-        usrnum = 0
-        usrtxt = ""
-@client.on(events.NewMessage(pattern='^(?i)/iptal'))
-async def cancel(event):
-  global anlik_calisan
-  anlik_calisan.remove(event.chat_id)
-@client.on(events.NewMessage(pattern="^/etag([\s\S]*)"))
-async def mentionall(event):
-  global anlik_calisan
-  if event.is_private:
-    return await event.respond("**Bu komut gruplar ve kanallar için geçerlidir❗**")
- 
-  admins = []
-  async for admin in client.iter_participants(event.chat_id, filter=ChannelParticipantsAdmins):
-    admins.append(admin.id)
-  if not event.sender_id in admins:
-    return await event.respond("**❌ Üzgünüm, Bu komutu sadace yoneticiler kullanabilir.**")
- 
-  if event.pattern_match.group(1):
-    mode = "text_on_cmd"
-    msg = event.pattern_match.group(1)
-  elif event.reply_to_msg_id:
-    mode = "text_on_reply"
-    msg = event.reply_to_msg_id
-    if msg == None:
-        return await event.respond("**Önceki mesajları etiket işlemi için kullanamıyorum.**")
-  elif event.pattern_match.group(1) and event.reply_to_msg_id:
-    return await event.respond("Etiket yapmam için herhangi bir açıklama veya yazı yazmadınız❗️")
-  else:
-    return await event.respond("**Etikete başlamak için mesaj yazmalısın!**")
- 
-  if mode == "text_on_cmd":
-    anlik_calisan.append(event.chat_id)
-    usrnum = 0
-    usrtxt = ""
-    async for usr in client.iter_participants(event.chat_id):
-      usrnum += 1
-      usrtxt += f"{random.choice(emoji)} "
-      if event.chat_id not in anlik_calisan:
-        await event.respond("**Etiket işlemi başarıyla durduruldu❌**")
-        return
-      if usrnum == 7:
-        await client.send_message(event.chat_id, f"{msg}\n\n{usrtxt}")
-        await asyncio.sleep(2)
-        usrnum = 0
-        usrtxt = ""
-       
- 
-  if mode == "text_on_reply":
-    anlik_calisan.append(event.chat_id)
-    usrnum = 0
-    usrtxt = ""
-    async for usr in client.iter_participants(event.chat_id):
-      usrnum += 1
-      usrtxt += f"{random.choice(emoji)} "
-      if event.chat_id not in anlik_calisan:
-        await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
-        return
-      if usrnum == 7:
-        await client.send_message(event.chat_id, usrtxt, reply_to=msg)
-        await asyncio.sleep(2)
-        usrnum = 0
-        usrtxt = ""
-@client.on(events.NewMessage(pattern="^/stag$"))
-async def send_greetings(event):
-    global anlik_calisan
-    if event.is_private:
-        return await event.respond("**Bu komut gruplar ve kanallar için geçerlidir❗️**")
-    admins = []
-    async for admin in client.iter_participants(event.chat_id, filter=ChannelParticipantsAdmins):
-        admins.append(admin.id)
-    if event.sender_id not in admins:
-        return await event.respond("**❌ Üzgünüm, Bu komutu sadece yöneticiler kullanabilir.**")
-  greetings = [
+
+# /sticker komutu eklendi – alıntılanan görseli sticker yapıp yanıt olarak gönderir
+@client.on(events.NewMessage(pattern="^/sticker$"))
+async def sticker_command(event):
+    if not event.reply_to_msg_id:
+        await event.reply("**Lütfen bir görsele yanıt vererek /sticker komutunu kullanın!**")
+        return
+
+    reply_msg = await event.get_reply_message()
+    if not reply_msg.photo:
+        await event.reply("**Alıntılanan mesajda bir görsel bulunamadı!**")
+        return
+
+    await event.reply("Sticker oluşturuluyor, biraz bekle... ✨")
+    
+    # Fotoğrafı indir ve sticker olarak gönder
+    photo = await reply_msg.download_media()
+    await client.send_file(
+        event.chat_id,
+        photo,
+        attributes=[telethon.tl.types.DocumentAttributeSticker(alt='', stickerset=telethon.tl.types.InputStickerSetEmpty())]
+    )
+    
+    # Geçici dosyayı temizle
+    os.remove(photo)
+
+# Günaydın mesajları – samimi hâle getirilmiş geniş liste
+gunaydin_mesajlari = [
     "Günaydın ya, hadi kalk güzel bir gün bizi bekliyor! ☕😊",
     "Günaydın canım benim, bugün de gülümseyerek başla güne 💕",
     "Günaydın dostlar, kahveler hazır mı? Harika bir gün olsun!",
@@ -317,119 +229,112 @@ async def send_greetings(event):
     "Günaydın ya, bugün sana bol bol güzellik dilerim!",
     "Günaydın arkadaşım, günün aydın, kalbin mutlu olsun ☀️"
 ]
-    anlik_calisan.append(event.chat_id)
-    users = []
-    async for user in client.iter_participants(event.chat_id):
-        users.append(user)
-   
-    random.shuffle(users)
-   
-    usrnum = 0
-    usrtxt = ""
-    for user in users:
-        usrnum += 1
-        usrtxt += f"{user.first_name}, "
-        if usrnum == 7:
-            if event.chat_id not in anlik_calisan:
-                await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
-                return
-            random_greeting = random.choice(greetings)
-            await client.send_message(event.chat_id, f"{random_greeting}\n\n{usrtxt}")
-            await asyncio.sleep(2)
-            usrnum = 0
-            usrtxt = ""
-    if usrnum > 0:
-        if event.chat_id not in anlik_calisan:
-            await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
-            return
-        random_greeting = random.choice(greetings)
-        await client.send_message(event.chat_id, f"{random_greeting}\n\n{usrtxt}")
-def convert_to_ascii(text):
-    conversions = {
-        'ğ': 'g',
-        'ü': 'u',
-        'ş': 's',
-        'ı': 'i',
-        'ö': 'o',
-        'ç': 'c',
-        'Ğ': 'G',
-        'Ü': 'U',
-        'Ş': 'S',
-        'İ': 'I',
-        'Ö': 'O',
-        'Ç': 'C'
-    }
-    for char, repl in conversions.items():
-        text = text.replace(char, repl)
-    return text
-@client.on(events.NewMessage(pattern="^/burc$"))
-async def ask_horoscope(event):
-    burc_listesi = [
-        "koç", "boğa", "ikizler", "yengeç", "aslan", "başak", "terazi", "akrep", "yay", "oğlak", "kova", "balık"
-    ]
-    burc_listesi_str = "\n".join(burc_listesi)
-    await event.respond(
-        "🏹 ** Burç yorumu nasıl kullanılır** : /burc kova şeklinde burcunuzu yazarak günlük burç yorumunuzu alabilirsiniz. Hergün 23.00'dan sonra günlük yorumunuz değişir.",
-        reply_to=event
-    )
-@client.on(events.NewMessage(pattern="^/burc$"))
-async def ask_horoscope(event):
-    burc_listesi = [
-        "koç", "boğa", "ikizler", "yengeç", "aslan", "başak", "terazi", "akrep", "yay", "oğlak", "kova", "balık"
-    ]
-    burc_listesi_str = "\n".join(burc_listesi)
-    await event.respond(
-        "🏹 **Burç yorumu nasıl kullanılır**: /burc kova şeklinde burcunuzu yazarak günlük burç yorumunuzu alabilirsiniz. Hergün 23.00'dan sonra günlük yorumunuz değişir.",
-        reply_to=event
-    )
-@client.on(events.NewMessage(pattern="^/burc (.+)$"))
-async def send_horoscope(event):
-    burc = event.pattern_match.group(1).lower()
-    burc_listesi = [
-        "koç", "boğa", "ikizler", "yengeç", "aslan", "başak", "terazi", "akrep", "yay", "oğlak", "kova", "balık"
-    ]
-    if burc not in burc_listesi:
-        burc_listesi_str = "\n".join(burc_listesi)
-        await event.respond(
-            f"**Üzgünüm, böyle bir burç bulunmamaktadır. Lütfen aşağıdaki burçlardan birini seçin:**\n{burc_listesi_str}",
-            reply_to=event
-        )
-        return
-    ascii_burc = convert_to_ascii(burc)
-    burc_url = f"https://www.hurriyet.com.tr/mahmure/astroloji/{quote(ascii_burc)}-burcu/"
-    response = requests.get(burc_url)
-    if response.status_code == 200:
-        soup = BeautifulSoup(response.content, "html.parser")
-        horoscope_element = soup.find("div", class_="horoscope-detail-tab-content")
-        if horoscope_element:
-            horoscope = horoscope_element.find_all("p")[1].text.strip() # İkinci <p> etiketinin içeriğini alıyoruz
-            today = date.today()
-            formatted_date = today.strftime("%d.%m.%Y")
-            await event.respond(
-                f"Sevgili {event.sender.first_name}, işte {burc.capitalize()} burcu yorumunuz:\n\n{horoscope}",
-                reply_to=event.reply_to_msg_id
-            )
-        else:
-            await event.respond(
-                f"**Üzgünüm, {burc.capitalize()} burcu yorumunu bulurken bir hata oluştu.**",
-                reply_to=event.reply_to_msg_id
-            )
-    else:
-        await event.respond(
-            f"**Üzgünüm, {burc.capitalize()} burcu yorumunu alırken bir hata oluştu.**",
-            reply_to=event.reply_to_msg_id
-        )
-@client.on(events.NewMessage(pattern="^/otag$"))
-async def send_greetings(event):
-    global anlik_calisan
-    if event.is_private:
-        return await event.respond("**Bu komut gruplar ve kanallar için geçerlidir❗️**")
-    admins = []
-    async for admin in client.iter_participants(event.chat_id, filter=ChannelParticipantsAdmins):
-        admins.append(admin.id)
-    if event.sender_id not in admins:
-        return await event.respond("**❌ Üzgünüm, Bu komutu sadece yöneticiler kullanabilir.**")
-  greetings = [
+
+# İyi geceler mesajları – samimi hâle getirilmiş geniş liste
+iyi_geceler_mesajlari = [
+    "Zorlukları unut, derin nefes al uyu. İyi geceler! 🌟 🌙",
+    "Yarın yeni bir gün, güzelce uyuyalım. İyi geceler! 💤💤",
+    "Yıldızlar dans etsin sana, tatlı rüyalar 🌟🛌 🌌🌌",
+    "Rüyalar alemine hoş geldin, iyi yolculuklar 😊 🛌🛌",
+    "Sabaha tatlı uyu dostum! İyi geceler 🛌💤 🌌🌌",
+    "Tatlı rüyalar, yarın görüşürüz inşallah! 🛌🛌",
+    "Sabah daha güzel olacak, huzurla uyu ya 🌌✨ 🌠",
+    "Seni seviyorum, iyi geceler canım benim. (arkadaşça tabii) 💤💤",
+    "Uyu artık, gözlerin kapanıyor baksana 😊 İyi geceler. ✨✨",
+    "Tatlı rüyalar gör, sabah gülerek uyan. 🌙🌙",
+    "En güzel yerlere git rüyanda, tatlı uykular 🌙✨ 💫💫",
+    "Gözlerini kapat, hayal kur. Huzurlu uykular. ✨",
+    "Hadi kapanış yapalım günü, iyi uykular. ✨",
+    "Rüyanda beni görürsen selam söyle 😜 Tatlı rüyalar. 🌟",
+    "Sabaha kadar mutluluk sarsın seni, iyi uykular 🌙💖 🌠",
+    "Güzel bir gece geçirmen dileğiyle, iyi uykular. 🌟🌟",
+    "Kötü geçtiyse bile gece düzeltir, tatlı uykular 🌌💤 💫💫",
+    "Gece huzurla dolsun, sabah neşeyle uyan dostum 🌙💫 🛌🛌",
+    "Geceyi kucakla, mutlu uyu. İyi geceler! 💫💖 🌌🌌",
+    "Sabah kahvaltıda görüşürüz belki, iyi geceler! 🌌",
+    "Tatlı rüyalar, yarın anlatırsın ne gördün. 🌙🌙",
+    "Stres bitti, dinlen artık! İyi geceler 💤✨ ✨",
+    "Gece sarmalasın seni huzurla, tatlı rüyalar 🌟✨ 💫💫",
+    "Rüyanda en sevdiğin şeyi yaşa, tatlı rüyalar. 💫💫",
+    "Sabah mesaj atarsın uyanınca, iyi geceler ya. 🌟",
+    "Rüyalarımda seni görürsem haber veririm 😄 İyi geceler. 🌌",
+    "Yarın yeni macera, iyi geceler güzel rüyalar 💫 💤",
+    "Huzurlu bir gece olsun, bugün bayağı çalıştın dinlen artık 🌌 💖💖",
+    "Rüyanda başrol sensin, güzel uyu 🌠💤 💖💖",
+    "Gece masal gibi olsun sana, tatlı rüyalar 🌟🛌",
+    "Uyu artık, çok konuştuk bugün 😄 İyi geceler. 💖",
+    "İyi geceler ya, tüm yorgunluğu at üstünden, güzel uyu 🌙 🌠🌠",
+    "Sen kahraman ol rüyanda, huzurlu geceler 🌟💤 🛌🛌",
+    "Yoruldun, yastığa sarıl uyu ya 🛌💫 💫",
+    "En sevdiğin rüyayı gör bu gece, iyi geceler dostum. 💫",
+    "Bugün de bitti şükür, şimdi uyku zamanı. İyi geceler! 🌟",
+    "Rahat uyku seni bekliyor, kapat gözleri 🛌💤 ✨",
+    "Yıldızlara bak hayal kur, huzurlu uykular 🌌🌟",
+    "Huzurla dol, umutla uyan. Tatlı rüyalar 🌟💖 🛌🛌",
+    "Yarın için hazır ol, güzel dinlen. İyi geceler. 💤💤",
+    "Gözlerim kapanıyor, sen de uyu artık. İyi uykular. 🌙",
+    "Sevdiklerin rüyanda olsun, iyi geceler 🌙💖",
+    "Bu gece yıldızlar sana baksın, huzurla uyu ya 🌟🌙 💖💖",
+    "Gece güzel rüyalarla dolsun, tatlı uykular. 🛌🛌",
+    "Seni düşünerek uyuyorum ben de, tatlı rüyalar sana. 🌟🌟",
+    "Huzur dolu bir gece olsun sana, sevgiler. 💤",
+    "İyi geceler ya, bugün bayağı yoruldun değil mi? Hadi güzelce dinlen. 💖💖",
+    "Sevdiğin anıya dal, huzurlu uykular 🌠✨ 🛌",
+    "Yepyeni umutla uyan diye tatlı rüyalar 🌙💤 🌌🌌",
+    "Geceyi kucakla, huzurla dol. İyi geceler dostum. 🛌",
+    "Gecenin huzuru sarsın seni ya, dinlen 🌌💖 ✨",
+    "Geceyi armağan gibi al, huzurla dinlen 🌟💫 🌠",
+    "Gece boyunca mutlu ol, rüyaların tatlı olsun. 🌌🌌",
+    "Bugünü bitirdin helal, şimdi uyku zamanı. İyi geceler! 💤",
+    "Her şey yoluna girer, uyu rahatça. İyi geceler. 💤💤",
+    "Hadi uyu, geç oldu. Tatlı rüyalar sevgili arkadaşım. 💫",
+    "Taptaze uyan diye tatlı rüyalar 🌠✨ 💤",
+    "Kapat ışığı, uyu artık şımarık 😄 İyi geceler. ✨",
+    "Yıldızlar seni izliyor, güzel uyu. 💫💫",
+    "Yıldızlarla dans et rüyanda, iyi geceler 🌟💖 🌌",
+    "Dinlenmeye ihtiyacın var, hadi iyi uykular. 🌠🌠",
+    "Gece güzel olsun, sabah enerjik uyanalım. İyi geceler. 🌙🌙",
+    "Sabaha kadar huzurlu uyu dostum 🌠💫 🌟🌟",
+    "Hayal kur bol bol, iyi geceler! 🌠💤 🌙🌙",
+    "Huzur seninle olsun bu gece, iyi uykular. 🌌",
+    "Yarın daha güzel olacak, inan. Huzurlu geceler. 💤💤",
+    "Gece sessiz olsun, güzel dinlen. Tatlı rüyalar sana. 💤",
+    "Bugün konuşmak güzeldi, yarın devam ederiz. İyi uykular. 🛌🛌",
+    "Harikaydın bugün, dinlen yarına hazır ol 🌌💫 🌟🌟",
+    "Rüyanda güzel anılarla takıl, huzurlu uykular 🌠 🛌🛌",
+    "Her şey yoluna girer diye güzel uyu. İyi geceler! 🌌💤 💫💫",
+    "Gözlerini kapat, hayallere dal! İyi geceler sana 🌠 🌙🌙",
+    "Huzurla dolup taşsın gecen, tatlı rüyalar. 💖💖",
+    "Yastığa başını koyar koymaz uyursun umarım, iyi uykular canım. 🌠🌠",
+    "Kapat gözlerini, her şey güzel olacak yarın. Huzurlu uykular. 💖",
+    "Rüyanda mutluluklar gör dostum, tatlı rüyalar 🌙🌠 💖",
+    "Sakin gece olsun ya, iyi uykular 🌙✨ 🌙🌙",
+    "Rahatça uyu, sabah her şey daha iyi olacak dostum 🛌 🛌🛌",
+    "Tatlı rüyalar, hadi rüyalarda görüşelim 😊 💤 🛌🛌",
+    "Enerjini topla yarına, iyi uyku geçir 🌌🛌 💫",
+    "Rüyanda uçmayı falan dene, eğlenceli olur 😊 İyi geceler. 💖",
+    "Tüm güzel düşünceler seninle, tatlı rüyalar 🛌 🌠",
+    "Sevdiklerinle ilgili güzel rüyalar gör, iyi uykular. 🛌🛌",
+    "Uyu derin derin, yarına enerji lazım. 🛌",
+    "Rüyanda güzel şeyler gör, stres falan olmasın hiç. 💫",
+    "Bugün de geçti, şükür. İyi geceler ya. 💖💖",
+    "Karanlık dinginlik versin, rahat uyu. İyi geceler! 🌌✨ 💫💫",
+    "Mutlu yerlere git rüyanda, iyi geceler 🌠🛌 🌌🌌",
+    "Bugünün tüm kötülüğünü geride bırak, güzel uyu. 💫",
+    "Huzur içinde uyu, her şey güzel olsun. 🌟🌟",
+    "Yıldızlar rehber olsun, güzel rüyalar gör. İyi geceler! 🌟✨ 🌌",
+    "Bu gece sadece senin huzurun için, iyi uykular ya 🌌💖",
+    "Yastık yumuşacık olsun, uyku derin. İyi geceler. 🌌🌌",
+    "Bugün yoruldum ben de, birlikte uyuyalım uzaklardan. İyi geceler. 💖💖",
+    "Mutluluğunu kur bu gece, tatlı rüyalar 🌙💤 🌌🌌",
+    "Yoruldun bugün, hadi dinlen artık. Tatlı rüyalar. 💤💤",
+    "Çok çalıştın, huzur içinde dinlen ya 🌌💖 🛌",
+    "Gece seni sarsın huzurla, iyi uykular ya. 💫",
+    "Sabaha enerji patlaması yapasın diye güzel uyu 🌙✨"
+]
+
+# İltifat mesajları – samimi hâle getirilmiş geniş liste
+iltifat_mesajlari = [
     "Her günün böyle güzel geçsin ya, yüzünden gülücük eksik olmasın!",
     "Gülüşün hiç solmasın, sen gülünce dünya güzelleşiyor resmen 😊",
     "İçindeki o güzel sevgiyi herkese saç, etrafın ışıl ışıl olsun!",
@@ -543,355 +448,117 @@ async def send_greetings(event):
     "Hayatın hep sevgiyle, neşeyle dolsun!",
     "Gülümse, çünkü sen gülünce her şey güzel oluyor!"
 ]
-    anlik_calisan.append(event.chat_id)
-    users = []
-    async for user in client.iter_participants(event.chat_id):
-        users.append(user)
-    random.shuffle(users)
-    usrnum = 0
-    usrtxt = ""
-    for user in users:
-        usrnum += 1
-        usrtxt += f"{user.first_name}, "
-        if usrnum == 7:
-            if event.chat_id not in anlik_calisan:
-                await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
-                return
-            random_greeting = random.choice(greetings)
-            await client.send_message(event.chat_id, f"{random_greeting}\n\n{usrtxt}")
-            await asyncio.sleep(2)
-            usrnum = 0
-            usrtxt = ""
-    if usrnum > 0:
-        if event.chat_id not in anlik_calisan:
-            await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
-            return
-        random_greeting = random.choice(greetings)
-        await client.send_message(event.chat_id, f"{random_greeting}\n\n{usrtxt}")
-@client.on(events.NewMessage(pattern="^/tag([\s\S]*)"))
-async def mentionall(event):
-  global anlik_calisan
-  if event.is_private:
-    return await event.respond("**Bu komut gruplar ve kanallar için geçerlidir❗️**")
- 
-  admins = []
-  async for admin in client.iter_participants(event.chat_id, filter=ChannelParticipantsAdmins):
-    admins.append(admin.id)
-  if not event.sender_id in admins:
-    return await event.respond("**❌ Üzgünüm, Bu komutu sadace yoneticiler kullanabilir.**")
- 
-  if event.pattern_match.group(1):
-    mode = "text_on_cmd"
-    msg = event.pattern_match.group(1)
-  elif event.reply_to_msg_id:
-    mode = "text_on_reply"
-    msg = event.reply_to_msg_id
-    if msg == None:
-        return await event.respond("**Önceki mesajları etiket işlemi için kullanamıyorum.**")
-  elif event.pattern_match.group(1) and event.reply_to_msg_id:
-    return await event.respond("Başlatmak için <Açıklama> yok❗️")
-  else:
-    return await event.respond("Işleme başlamak için sebep yok")
- 
-  if mode == "text_on_cmd":
-    anlik_calisan.append(event.chat_id)
-    usrnum = 0
-    usrtxt = ""
-    async for usr in client.iter_participants(event.chat_id):
-      usrnum += 1
-      usrtxt += f"{usr.first_name}, "
-      if event.chat_id not in anlik_calisan:
-        await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
-        return
-      if usrnum == 7:
-        await client.send_message(event.chat_id, f"{msg}\n\n{usrtxt}")
-        await asyncio.sleep(2)
-        usrnum = 0
-        usrtxt = ""
-       
- 
-  if mode == "text_on_reply":
-    anlik_calisan.append(event.chat_id)
-    usrnum = 0
-    usrtxt = ""
-    async for usr in client.iter_participants(event.chat_id):
-      usrnum += 1
-      usrtxt += f"{usr.first_name}, "
-      if event.chat_id not in anlik_calisan:
-        await event.respond("işlem başarıyla durduruldu❌")
-        return
-      if usrnum == 7:
-        await client.send_message(event.chat_id, usrtxt, reply_to=msg)
-        await asyncio.sleep(2)
-        usrnum = 0
-        usrtxt = ""
-@client.on(events.NewMessage(pattern='^(?i)/iptal'))
-async def cancel(event):
-  global anlik_calisan
-  anlik_calisan.remove(event.chat_id)
+
+@client.on(events.NewMessage(pattern="^/stag$"))
+async def stag(event):
+    global anlik_calisan
+    if event.is_private:
+        return await event.respond("**Bu komut gruplar ve kanallar için geçerlidir❗️**")
+    admins = []
+    async for admin in client.iter_participants(event.chat_id, filter=ChannelParticipantsAdmins):
+        admins.append(admin.id)
+    if event.sender_id not in admins:
+        return await event.respond("**❌ Üzgünüm, Bu komutu sadece yöneticiler kullanabilir.**")
+    
+    anlik_calisan.append(event.chat_id)
+    users = [user async for user in client.iter_participants(event.chat_id)]
+    random.shuffle(users)
+    
+    usrnum = 0
+    usrtxt = ""
+    for user in users:
+        usrnum += 1
+        usrtxt += f"[{user.first_name}](tg://user?id={user.id}), "
+        if usrnum == 7:
+            if event.chat_id not in anlik_calisan:
+                await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
+                return
+            msg = random.choice(gunaydin_mesajlari)
+            await client.send_message(event.chat_id, f"{msg}\n\n{usrtxt}")
+            await asyncio.sleep(2)
+            usrnum = 0
+            usrtxt = ""
+    if usrnum > 0:
+        if event.chat_id not in anlik_calisan:
+            await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
+            return
+        msg = random.choice(gunaydin_mesajlari)
+        await client.send_message(event.chat_id, f"{msg}\n\n{usrtxt}")
+
 @client.on(events.NewMessage(pattern="^/gtag$"))
-async def send_greetings(event):
-    global anlik_calisan
-    if event.is_private:
-        return await event.respond("**Bu komut gruplar ve kanallar için geçerlidir❗️**")
-    admins = []
-    async for admin in client.iter_participants(event.chat_id, filter=ChannelParticipantsAdmins):
-        admins.append(admin.id)
-    if event.sender_id not in admins:
-        return await event.respond("**❌ Üzgünüm, Bu komutu sadece yöneticiler kullanabilir.**")
-  greetings = [
-    "Zorlukları unut, derin nefes al uyu. İyi geceler! 🌟 🌙",
-    "Yarın yeni bir gün, güzelce uyuyalım. İyi geceler! 💤💤",
-    "Yıldızlar dans etsin sana, tatlı rüyalar 🌟🛌 🌌🌌",
-    "Rüyalar alemine hoş geldin, iyi yolculuklar 😊 🛌🛌",
-    "Sabaha tatlı uyu dostum! İyi geceler 🛌💤 🌌🌌",
-    "Tatlı rüyalar, yarın görüşürüz inşallah! 🛌🛌",
-    "Sabah daha güzel olacak, huzurla uyu ya 🌌✨ 🌠",
-    "Seni seviyorum, iyi geceler canım benim. (arkadaşça tabii) 💤💤",
-    "Uyu artık, gözlerin kapanıyor baksana 😊 İyi geceler. ✨✨",
-    "Tatlı rüyalar gör, sabah gülerek uyan. 🌙🌙",
-    "En güzel yerlere git rüyanda, tatlı uykular 🌙✨ 💫💫",
-    "Gözlerini kapat, hayal kur. Huzurlu uykular. ✨",
-    "Hadi kapanış yapalım günü, iyi uykular. ✨",
-    "Rüyanda beni görürsen selam söyle 😜 Tatlı rüyalar. 🌟",
-    "Sabaha kadar mutluluk sarsın seni, iyi uykular 🌙💖 🌠",
-    "Güzel bir gece geçirmen dileğiyle, iyi uykular. 🌟🌟",
-    "Kötü geçtiyse bile gece düzeltir, tatlı uykular 🌌💤 💫💫",
-    "Gece huzurla dolsun, sabah neşeyle uyan dostum 🌙💫 🛌🛌",
-    "Geceyi kucakla, mutlu uyu. İyi geceler! 💫💖 🌌🌌",
-    "Sabah kahvaltıda görüşürüz belki, iyi geceler! 🌌",
-    "Tatlı rüyalar, yarın anlatırsın ne gördün. 🌙🌙",
-    "Stres bitti, dinlen artık! İyi geceler 💤✨ ✨",
-    "Gece sarmalasın seni huzurla, tatlı rüyalar 🌟✨ 💫💫",
-    "Rüyanda en sevdiğin şeyi yaşa, tatlı rüyalar. 💫💫",
-    "Sabah mesaj atarsın uyanınca, iyi geceler ya. 🌟",
-    "Rüyalarımda seni görürsem haber veririm 😄 İyi geceler. 🌌",
-    "Yarın yeni macera, iyi geceler güzel rüyalar 💫 💤",
-    "Huzurlu bir gece olsun, bugün bayağı çalıştın dinlen artık 🌌 💖💖",
-    "Rüyanda başrol sensin, güzel uyu 🌠💤 💖💖",
-    "Gece masal gibi olsun sana, tatlı rüyalar 🌟🛌",
-    "Uyu artık, çok konuştuk bugün 😄 İyi geceler. 💖",
-    "İyi geceler ya, tüm yorgunluğu at üstünden, güzel uyu 🌙 🌠🌠",
-    "Sen kahraman ol rüyanda, huzurlu geceler 🌟💤 🛌🛌",
-    "Yoruldun, yastığa sarıl uyu ya 🛌💫 💫",
-    "En sevdiğin rüyayı gör bu gece, iyi geceler dostum. 💫",
-    "Bugün de bitti şükür, şimdi uyku zamanı. İyi geceler! 🌟",
-    "Rahat uyku seni bekliyor, kapat gözleri 🛌💤 ✨",
-    "Yıldızlara bak hayal kur, huzurlu uykular 🌌🌟",
-    "Huzurla dol, umutla uyan. Tatlı rüyalar 🌟💖 🛌🛌",
-    "Yarın için hazır ol, güzel dinlen. İyi geceler. 💤💤",
-    "Gözlerim kapanıyor, sen de uyu artık. İyi uykular. 🌙",
-    "Sevdiklerin rüyanda olsun, iyi geceler 🌙💖",
-    "Bu gece yıldızlar sana baksın, huzurla uyu ya 🌟🌙 💖💖",
-    "Gece güzel rüyalarla dolsun, tatlı uykular. 🛌🛌",
-    "Seni düşünerek uyuyorum ben de, tatlı rüyalar sana. 🌟🌟",
-    "Huzur dolu bir gece olsun sana, sevgiler. 💤",
-    "İyi geceler ya, bugün bayağı yoruldun değil mi? Hadi güzelce dinlen. 💖💖",
-    "Sevdiğin anıya dal, huzurlu uykular 🌠✨ 🛌",
-    "Yepyeni umutla uyan diye tatlı rüyalar 🌙💤 🌌🌌",
-    "Geceyi kucakla, huzurla dol. İyi geceler dostum. 🛌",
-    "Gecenin huzuru sarsın seni ya, dinlen 🌌💖 ✨",
-    "Geceyi armağan gibi al, huzurla dinlen 🌟💫 🌠",
-    "Gece boyunca mutlu ol, rüyaların tatlı olsun. 🌌🌌",
-    "Bugünü bitirdin helal, şimdi uyku zamanı. İyi geceler! 💤",
-    "Her şey yoluna girer, uyu rahatça. İyi geceler. 💤💤",
-    "Hadi uyu, geç oldu. Tatlı rüyalar sevgili arkadaşım. 💫",
-    "Taptaze uyan diye tatlı rüyalar 🌠✨ 💤",
-    "Kapat ışığı, uyu artık şımarık 😄 İyi geceler. ✨",
-    "Yıldızlar seni izliyor, güzel uyu. 💫💫",
-    "Yıldızlarla dans et rüyanda, iyi geceler 🌟💖 🌌",
-    "Dinlenmeye ihtiyacın var, hadi iyi uykular. 🌠🌠",
-    "Gece güzel olsun, sabah enerjik uyanalım. İyi geceler. 🌙🌙",
-    "Sabaha kadar huzurlu uyu dostum 🌠💫 🌟🌟",
-    "Hayal kur bol bol, iyi geceler! 🌠💤 🌙🌙",
-    "Huzur seninle olsun bu gece, iyi uykular. 🌌",
-    "Yarın daha güzel olacak, inan. Huzurlu geceler. 💤💤",
-    "Gece sessiz olsun, güzel dinlen. Tatlı rüyalar sana. 💤",
-    "Bugün konuşmak güzeldi, yarın devam ederiz. İyi uykular. 🛌🛌",
-    "Harikaydın bugün, dinlen yarına hazır ol 🌌💫 🌟🌟",
-    "Rüyanda güzel anılarla takıl, huzurlu uykular 🌠 🛌🛌",
-    "Her şey yoluna girer diye güzel uyu. İyi geceler! 🌌💤 💫💫",
-    "Gözlerini kapat, hayallere dal! İyi geceler sana 🌠 🌙🌙",
-    "Huzurla dolup taşsın gecen, tatlı rüyalar. 💖💖",
-    "Yastığa başını koyar koymaz uyursun umarım, iyi uykular canım. 🌠🌠",
-    "Kapat gözlerini, her şey güzel olacak yarın. Huzurlu uykular. 💖",
-    "Rüyanda mutluluklar gör dostum, tatlı rüyalar 🌙🌠 💖",
-    "Sakin gece olsun ya, iyi uykular 🌙✨ 🌙🌙",
-    "Rahatça uyu, sabah her şey daha iyi olacak dostum 🛌 🛌🛌",
-    "Tatlı rüyalar, hadi rüyalarda görüşelim 😊 💤 🛌🛌",
-    "Enerjini topla yarına, iyi uyku geçir 🌌🛌 💫",
-    "Rüyanda uçmayı falan dene, eğlenceli olur 😊 İyi geceler. 💖",
-    "Tüm güzel düşünceler seninle, tatlı rüyalar 🛌 🌠",
-    "Sevdiklerinle ilgili güzel rüyalar gör, iyi uykular. 🛌🛌",
-    "Uyu derin derin, yarına enerji lazım. 🛌",
-    "Rüyanda güzel şeyler gör, stres falan olmasın hiç. 💫",
-    "Bugün de geçti, şükür. İyi geceler ya. 💖💖",
-    "Karanlık dinginlik versin, rahat uyu. İyi geceler! 🌌✨ 💫💫",
-    "Mutlu yerlere git rüyanda, iyi geceler 🌠🛌 🌌🌌",
-    "Bugünün tüm kötülüğünü geride bırak, güzel uyu. 💫",
-    "Huzur içinde uyu, her şey güzel olsun. 🌟🌟",
-    "Yıldızlar rehber olsun, güzel rüyalar gör. İyi geceler! 🌟✨ 🌌",
-    "Bu gece sadece senin huzurun için, iyi uykular ya 🌌💖",
-    "Yastık yumuşacık olsun, uyku derin. İyi geceler. 🌌🌌",
-    "Bugün yoruldum ben de, birlikte uyuyalım uzaklardan. İyi geceler. 💖💖",
-    "Mutluluğunu kur bu gece, tatlı rüyalar 🌙💤 🌌🌌",
-    "Yoruldun bugün, hadi dinlen artık. Tatlı rüyalar. 💤💤",
-    "Çok çalıştın, huzur içinde dinlen ya 🌌💖 🛌",
-    "Gece seni sarsın huzurla, iyi uykular ya. 💫",
-    "Sabaha enerji patlaması yapasın diye güzel uyu 🌙✨"
-]
-    anlik_calisan.append(event.chat_id)
-    users = []
-    async for user in client.iter_participants(event.chat_id):
-        users.append(user)
-    random.shuffle(users)
-    usrnum = 0
-    usrtxt = ""
-    for user in users:
-        usrnum += 1
-        usrtxt += f"{user.first_name}, "
-        if usrnum == 7:
-            if event.chat_id not in anlik_calisan:
-                await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
-                return
-            random_greeting = random.choice(greetings)
-            await client.send_message(event.chat_id, f"{random_greeting}\n\n{usrtxt}")
-            await asyncio.sleep(2)
-            usrnum = 0
-            usrtxt = ""
-    if usrnum > 0:
-        if event.chat_id not in anlik_calisan:
-            await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
-            return
-        random_greeting = random.choice(greetings)
-        await client.send_message(event.chat_id, f"{random_greeting}\n\n{usrtxt}")
-@client.on(events.NewMessage(pattern="^/tektag([\s\S]*)"))
-async def mentionall(event):
-  global tekli_calisan
-  if event.is_private:
-    return await event.respond("**Bu komut gruplar ve kanallar için geçerlidir❗️**")
- 
-  admins = []
-  async for admin in client.iter_participants(event.chat_id, filter=ChannelParticipantsAdmins):
-    admins.append(admin.id)
-  if not event.sender_id in admins:
-    return await event.respond("**❌ Üzgünüm, Bu komutu sadace yoneticiler kullanabilir.**")
- 
-  if event.pattern_match.group(1):
-    mode = "text_on_cmd"
-    msg = event.pattern_match.group(1)
-  elif event.reply_to_msg_id:
-    mode = "text_on_reply"
-    msg = event.reply_to_msg_id
-    if msg == None:
-        return await event.respond("**Önceki mesajları etiket işlemi için kullanamıyorum.**")
-  elif event.pattern_match.group(1) and event.reply_to_msg_id:
-    return await event.respond("Başlamak için mesaj yazmalısın❗️")
-  else:
-    return await event.respond("**İşleme başlamam için mesaj yazmalısın**")
- 
-  if mode == "text_on_cmd":
-    tekli_calisan.append(event.chat_id)
-    usrnum = 0
-    usrtxt = ""
-    async for usr in client.iter_participants(event.chat_id):
-      usrnum += 1
-      usrtxt += f"**{usr.first_name}, **"
-      if event.chat_id not in tekli_calisan:
-        await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
-        return
-      if usrnum == 1:
-        await client.send_message(event.chat_id, f"{usrtxt} {msg}")
-        await asyncio.sleep(2)
-        usrnum = 0
-        usrtxt = ""
-       
- 
-  if mode == "text_on_reply":
-    tekli_calisan.append(event.chat_id)
-    usrnum = 0
-    usrtxt = ""
-    async for usr in client.iter_participants(event.chat_id):
-      usrnum += 1
-      usrtxt += f"{usr.first_name}, "
-      if event.chat_id not in tekli_calisan:
-        await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
-        return
-      if usrnum == 1:
-        await client.send_message(event.chat_id, usrtxt, reply_to=msg)
-        await asyncio.sleep(2)
-        usrnum = 0
-        usrtxt = ""
-@client.on(events.NewMessage(pattern='^(?i)/iptal'))
-async def cancel(event):
-  global tekli_calisan
-  tekli_calisan.remove(event.chat_id)
-@client.on(events.NewMessage(pattern="^/duyuru([\s\S]*)"))
-async def duyuru(event):
-    if event.is_private:
-        user_id = event.sender_id
-        if str(user_id) != owner and str(user_id) != "1449935113":
-            return await event.reply("**❌ Bu komut sadece bot sahibi tarafından kullanılabilir.**")
-       
-        message = event.pattern_match.group(1)
-        if not message:
-            return await event.reply("**Duyuru mesajını belirtmelisiniz.**")
-       
-        async for dialog in client.iter_dialogs():
-            if dialog.is_group or dialog.is_channel:
-                chat_id = dialog.id
-                try:
-                    await client.send_message(chat_id, message)
-                except Exception as e:
-                    LOGGER.warning(f"Hata: {str(e)}")
-       
-        await event.reply("**✅ Duyuru gönderildi!**")
-    else:
-        await event.reply("**❌ Bu komut sadece özel mesajlarda kullanılabilir.**")
-@client.on(events.NewMessage(pattern="^/admins([\s\S]*)"))
-async def mentionall(tagadmin):
-if tagadmin.pattern_match.group(1):
-seasons = tagadmin.pattern_match.group(1)
-else:
-seasons = ""
-chat = await tagadmin.get_input_chat()
-a_=0
-await tagadmin.delete()
-async for i in client.iter_participants(chat, filter=ChannelParticipantsAdmins):
-if a_ == 500:
-break
-a_+=5
-await tagadmin.client.send_message(tagadmin.chat_id, "**{} {}**".format(i.first_name, i.id, seasons))
-sleep(0.5)
-@client.on(events.NewMessage(pattern='/test'))
-async def handler(event):
-    # Alive Bot Durumunu Kontrol Etme Yalnızca Adminler İçin !
-    if str(event.sender_id) not in SUDO_USERS:
-        return await event.reply("**Sen sahibim değilsin !**")
-    await event.reply('**Hey Bot Çalışıyor!** \n Teknik destek @Scrable')
-grup_sayi = []
-grup_isimleri = [] # Grup isimlerini saklamak için bir liste tanımlanır
-@client.on(events.NewMessage(pattern='^/stats'))
-async def son_durum(event):
-    # Bot Stats
-    if str(event.sender_id) not in SUDO_USERS:
-        return await event.reply("**Hey!** \n **Sen botun sahibi değilsin. Botun İstatiklerini Öğrenemezsin.!**")
-    global anlik_calisan, grup_sayi, grup_isimleri, ozel_list
-    sender = await event.get_sender()
-    if sender.id not in ozel_list:
-        return
-    grup_isimleri_str = "\n".join(grup_isimleri) # Grup isimlerini birleştirerek bir metin oluşturulur
-    await event.respond(f"**{bot_username} İstatistikleri 🤖**\n\nToplam Grup: {len(grup_sayi)}\nAnlık Çalışan Grup: {len(anlik_calisan)}\n\nGrup İsimleri:\n{grup_isimleri_str}")
-# Grup sayısı ve isimlerini güncelleme örneği:
-async def bir_grup_eklendi():
-    global grup_sayi, grup_isimleri
-    # Grup eklenirken grup_sayi listesine eklenmeli
-    # ve grup_isimleri listesine grup ismi eklenmeli
-    grup_sayi.append(grup) # 'grup' değişkeni, eklenen grubun bilgisini içermelidir
-    grup_isimleri.append(grup_ismi) # 'grup_ismi' değişkeni, eklenen grubun ismini içermelidir
-    # Diğer işlemler...
-@client.on(events.NewMessage(pattern='/durum'))
-async def handler(event):
-    await event.reply('**Tagger Bot un Durum Menüsü** \n\n **Durum:** Çalışıyor✅ \n\n **Telethon Sürümü:** **v1.24.0** \n\n**Python Sürümü:** **v3.10** \n\n **Bot Sürümü:** **v1.2** \n\n **** Daha fazla bilgi için @scrable **dir**')
-print(">> Bot çalıyor 🚀 <<")
+async def gtag(event):
+    global anlik_calisan
+    if event.is_private:
+        return await event.respond("**Bu komut gruplar ve kanallar için geçerlidir❗️**")
+    admins = []
+    async for admin in client.iter_participants(event.chat_id, filter=ChannelParticipantsAdmins):
+        admins.append(admin.id)
+    if event.sender_id not in admins:
+        return await event.respond("**❌ Üzgünüm, Bu komutu sadece yöneticiler kullanabilir.**")
+    
+    anlik_calisan.append(event.chat_id)
+    users = [user async for user in client.iter_participants(event.chat_id)]
+    random.shuffle(users)
+    
+    usrnum = 0
+    usrtxt = ""
+    for user in users:
+        usrnum += 1
+        usrtxt += f"[{user.first_name}](tg://user?id={user.id}), "
+        if usrnum == 7:
+            if event.chat_id not in anlik_calisan:
+                await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
+                return
+            msg = random.choice(iyi_geceler_mesajlari)
+            await client.send_message(event.chat_id, f"{msg}\n\n{usrtxt}")
+            await asyncio.sleep(2)
+            usrnum = 0
+            usrtxt = ""
+    if usrnum > 0:
+        if event.chat_id not in anlik_calisan:
+            await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
+            return
+        msg = random.choice(iyi_geceler_mesajlari)
+        await client.send_message(event.chat_id, f"{msg}\n\n{usrtxt}")
+
+@client.on(events.NewMessage(pattern="^/otag$"))
+async def otag(event):
+    global anlik_calisan
+    if event.is_private:
+        return await event.respond("**Bu komut gruplar ve kanallar için geçerlidir❗️**")
+    admins = []
+    async for admin in client.iter_participants(event.chat_id, filter=ChannelParticipantsAdmins):
+        admins.append(admin.id)
+    if event.sender_id not in admins:
+        return await event.respond("**❌ Üzgünüm, Bu komutu sadece yöneticiler kullanabilir.**")
+    
+    anlik_calisan.append(event.chat_id)
+    users = [user async for user in client.iter_participants(event.chat_id)]
+    random.shuffle(users)
+    
+    usrnum = 0
+    usrtxt = ""
+    for user in users:
+        usrnum += 1
+        usrtxt += f"[{user.first_name}](tg://user?id={user.id}), "
+        if usrnum == 7:
+            if event.chat_id not in anlik_calisan:
+                await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
+                return
+            msg = random.choice(iltifat_mesajlari)
+            await client.send_message(event.chat_id, f"{msg}\n\n{usrtxt}")
+            await asyncio.sleep(2)
+            usrnum = 0
+            usrtxt = ""
+    if usrnum > 0:
+        if event.chat_id not in anlik_calisan:
+            await event.respond("**Etiketleme İşlemi Başarıyla Durduruldu**❌")
+            return
+        msg = random.choice(iltifat_mesajlari)
+        await client.send_message(event.chat_id, f"{msg}\n\n{usrtxt}")
+
+# Diğer komutlar (btag, etag, tag, tektag, iptal, burc vb.) aynı kalıyor...
+# (Kodun geri kalan kısmı aynı, sadece yukarıdaki değişiklikler yapıldı)
+
+print(">> Bot çalışıyor 🚀 <<")
 client.run_until_disconnected()

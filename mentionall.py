@@ -1,9 +1,10 @@
+selam şu bota /sticker komutu ekle ve alıntı yapılan görseli sticker yapıp yanıt olarak o kişyie göndersin. 
+
 import random, os, logging, asyncio
 from telethon import Button
 from telethon import TelegramClient, events
 from telethon.sessions import StringSession
 from telethon.tl.types import ChannelParticipantsAdmins
-from telethon.tl.types import InputStickerSetShortName
 from asyncio import sleep
 from Config import Config
 import random
@@ -58,21 +59,7 @@ async def start(event):
 
 @client.on(events.NewMessage(pattern="^/help$"))
 async def help(event):
-helptext = "**💭 Sera Tag Bot Komutlarına aşağıdan ulaşabilirsiniz.**\n\n" \
-"**/start** - Botun göreve başlatılmasını sağlar\n" \
-"**/tag** <Açıklama> - Tek mesajda yedi kişi olacak şekilde etiketler.\n" \
-"**/etag** <Açıklama> - Emoji ile etiketler\n" \
-"**/stag** - Kullanıcıları rastgele günaydın mesajı ile etiketler.\n" \
-"**/gtag** - Kullanıcıları rastgele iyi geceler mesajı ile etiketler.\n" \
-"**/otag** - Kullanıcılara güzel iltifatlar yaparak etiketler\n" \
-"**/tektag** <Açıklama> - Üyeleri Tek Tek Etiketler\n" \
-"**/admins** <Açıklama> - Gruptaki yöneticileri etiketler\n" \
-"**/btag** - Bayrak Şeklinde Etiket Atar\n" \
-"**/burc** - Günlük burç yorumu atar, tüm üyeler kullanabilir\n" \
-"**/sticker** - Bir görsele yanıt vererek kullanılır. Yanıtlanan görseli sticker yapar\n" \
-"**/iptal** - Başlatılan etiketleme işlemini durdurur.\n\n" \
-"Açıklama yazan kısımlara kullanıcılara söylemek istediğiniz metni yazabilirsiniz."
-
+    helptext = "**💭 Sera Tag Bot Komutlarına aşağıdan ulaşabilirsiniz.**\n\n**/start** - Botun göreve başlatılmasını sağlar\n**/tag** <Açıklama> - Tek mesajda yedi kişi olacak şekilde etiketler.\n**/etag** <Açıklama> - Emoji ile etiketler\n**/stag** - Kullanıcıları rastgele günaydın mesajı ile etiketler.\n**/gtag** - Kullanıcıları rastgele iyi geceler mesajı ile etiketler.\n**/otag** - Kullanıcılara güzel iltifatlar yaparak etiketler\n**/tektag** <Açıklama> - Üyeleri Tek Tek Etiketler\n**/admins** <Açıklama> - Gruptaki yöneticileri etiketler\n**/btag** - Bayrak Şeklinde Etiket Atar\n**/burc** Günlük Burç yorumu atar, tüm üyeler kullanabilir\n**/iptal** - Başlatılan etiketleme işlemini durdurur.\n\nAçıklama yazan kısımlara kullanıcılara söylemek istediğiniz metni yazabilirsiniz."
     
     await event.reply(helptext,
                       buttons=(
@@ -102,41 +89,6 @@ async def cancel(event):
 emoji = "🐵 🦁 🐯 🐱 🐶 🐺 🐻 🐨 🐼 🐹 🐭 🐰 🦊 🦝 🐮 🐷 🐽 🐗 🦓 🦄 🐴 🐸 🐲 🦎 🐉 🦖 🦕 🐢 🐊 🐍 🐁 🐀 🐇 🐈 🐩 🐕 🦮 🐕‍🦺 🐅 🐆 🐎 🐖 🐄 🐂 🐃 🐏 🐑 🐐 🦌 🦙 🦥 🦘 🐘 🦏 🦛 🦒 🐒 🦍 🦧 🐪 🐫 🐿️ 🦨 🦡 🦔 🦦 🦇 🐓 🐔 🐣 🐤 🐥 🐦 🦉 🦅 🦜 🕊️ 🦢 🦩 🦚 🦃 🦆 🐧🦈 🐬 🐋 🐳 🐟 🐠 🐡 🦐 🦞 🦀 🦑 🐙 🦪 🦂 🕷️ 🦋 🐞 🐝 🦟 🦗 🐜 🐌 🐚 🕸️ 🐛 🐾 😀 😃 😄 😁 😆 😅 😂 🤣 😭 😗 😙 😚 😘 🥰 😍 🤩 🥳 🤗 🙃 🙂 ☺️ 😊 😏 😌 😉 🤭 😶 😐 😑 😔 😋 😛 😝 😜 🤪 🤔 🤨 🧐 🙄 😒 😤 😠 🤬 ☹️ 🙁 😕 😟 🥺 😳 😬 🤐 🤫 😰 😨 😧 😦 😮 😯 😲 😱 🤯 😢 😥 😓 😞 😖 😣 😩 😫 🤤 🥱 😴 😪 🌛 🌜 🌚 🌝 🌞 🤢 🤮 🤧 🤒 🍓 🍒 🍎 🍉 🍑 🍊 🥭 🍍 🍌 🌶 🍇 🥝 🍐 🍏 🍈 🍋 🍄 🥕 🍠 🧅 🌽 🥦 🥒 🥬 🥑 🥯 🥖 🥐 🍞 🥜 🌰 🥔 🧄 🍆 🧇 🥞 🥚 🧀 🥓 🥩 🍗 🍖 🥙 🌯 🌮 🍕 🍟 🥨 🥪 🌭 🍔 🧆 🥘 🍝 🥫 🥣 🥗 🍲 🍛 🍜 🍢 🥟 🍱 🍚 🥡 🍤 🍣 🦞 🦪 🍘 🍡 🥠 🥮 🍧 🍧 🍨".split(" ")
 
 bayrak = "🏳️‍🌈 🏳️‍⚧️ 🇺🇳 🇦🇫 🇦🇽 🇦🇱 🇩🇿 🇦🇸 🇦🇩 🇦🇴 🇦🇮 🇦🇶 🇦🇬 🇦🇷 🇦🇲 🇦🇼 🇦🇺 🇦🇹 🇦🇿 🇧🇸 🇧🇭 🇧🇩  🇧🇧 🇧🇾 🇧🇪 🇧🇿 🇧🇯 🇧🇷 🇧🇼 🇧🇦 🇧🇴 🇧🇹 🇧🇲 🇻🇬 🇧🇳 🇧🇬 🇧🇫 🇧🇮 🇰🇭 🇰🇾 🇧🇶 🇨🇻 🇮🇨 🇨🇦 🇨🇲 🇨🇫 🇹🇩 🇮🇴 🇨🇳 🇨🇱 🇨🇽 🇨🇰 🇨🇩 🇨🇬 🇰🇲 🇨🇴 🇨🇨 🇨🇷 🇨🇿 🇪🇬 🇪🇹 🇪🇺 🇸🇻 🇩🇰 🇨🇮 🇭🇷 🇨🇺 🇨🇼 🇨🇾 🇪🇨 🇩🇴 🇩🇲 🇩🇯 🇬🇶 🇪🇷 🇫🇴 🇫🇰 🇫🇯 🇪🇪 🇸🇿 🇫🇮 🇬🇲 🇬🇦 🇹🇫 🇵🇫 🇬🇫 🇫🇷 🇬🇪 🇩🇪 🇬🇭 🇬🇮 🇬🇷 🇬🇱 🇬🇳 🇬🇬 🇬🇹 🇬🇺 🇬🇵 🇬🇩 🇬🇼 🇬🇾 🇭🇹 🇭🇳 🇭🇰 🇭🇺 🎌 🇮🇪 🇮🇶 🇯🇵 🇯🇲 🇮🇷 🇮🇩 🇮🇹 🇮🇱 🇮🇳 🇮🇸 🇮🇲 🇯🇪 🇯🇴 🇰🇬 🇰🇼 🇱🇷 🇱🇾 🇱🇮 🇱🇦 🇰🇿 🇰🇪 🇱🇻 🇱🇹 🇱🇺 🇱🇧 🇰🇮 🇽🇰 🇱🇸 🇲🇴 🇲🇹 🇲🇱 🇲🇻 🇲🇾 🇲🇼 🇲🇬 🇹🇷 🇹🇱 🇸🇪 🇸🇩 🇸🇧 🇸🇴 🇰🇷".split(" ")
-
-@client.on(events.NewMessage(pattern="^/sticker$"))
-async def make_sticker(event):
-    if not event.reply_to_msg_id:
-        return await event.reply("❗ **Bir görsele yanıt vererek /sticker yazmalısın.**")
-
-    reply = await event.get_reply_message()
-
-    if not reply.photo:
-        return await event.reply("❗ **Yanıtlanan mesaj bir görsel olmalı.**")
-
-    try:
-        # Görseli indir
-        file_path = await client.download_media(reply.photo)
-
-        # Sticker olarak gönder
-        await client.send_file(
-            event.chat_id,
-            file_path,
-            reply_to=event.sender_id,
-            force_document=False,
-            attributes=[],
-            caption=None,
-            thumb=None,
-            supports_streaming=False,
-            mime_type="image/webp"
-        )
-
-        # Temizlik
-        if os.path.exists(file_path):
-            os.remove(file_path)
-
-    except Exception as e:
-        await event.reply(f"❌ **Sticker oluşturulamadı.**\nHata: `{e}`")
-
 
 @client.on(events.NewMessage(pattern="^/btag([\s\S]*)"))
 async def mentionall(event):
@@ -777,7 +729,48 @@ async def handler(event):
 	
     await event.reply('**Tagger Bot un Durum Menüsü** \n\n __Durum:__ `Çalışıyor✅` \n\n **Telethon Sürümü:** __v1.24.0__ \n\n**Python Sürümü:** __v3.10__ \n\n **Bot Sürümü:** __v1.2__ \n\n **** Daha fazla bilgi için @scrable **dir**')
 
+from telethon.tl.functions.stickers import CreateStickerSetRequest
+from telethon.tl.types import InputStickerSetEmpty, DocumentAttributeSticker, InputDocumentFileReference
 
+@client.on(events.NewMessage(pattern="^/sticker$"))
+async def sticker_command(event):
+    # Sadece alıntı yapılan mesajda medya varsa çalışsın
+    if not event.is_reply:
+        return await event.reply("**Lütfen bir görsele alıntı yaparak /sticker komutunu kullanın.**")
+
+    reply_msg = await event.get_reply_message()
+    if not reply_msg or not reply_msg.media:
+        return await event.reply("**Alıntılanan mesajda görsel bulunamadı.**")
+
+    # Fotoğraf, video veya animasyonlu sticker olabilir
+    if not hasattr(reply_msg.media, "document") and not hasattr(reply_msg.media, "photo"):
+        return await event.reply("**Sadece fotoğraf veya sticker/görsel dosyaları dönüştürülebilir.**")
+
+    await event.reply("**Sticker oluşturuluyor, lütfen bekleyin...**")
+
+    try:
+        # Medyayı indir
+        file = await client.download_media(reply_msg.media, file=bytes)
+
+        # Sticker paketi oluşturmadan direkt sticker olarak göndermek için send_file ile sticker attribute ekliyoruz
+        await client.send_file(
+            event.chat_id,
+            file=file,
+            attributes=[
+                DocumentAttributeSticker(
+                    alt="😎",  # Sticker emoji (isteğe bağlı, değiştirilebilir)
+                    stickerset=InputStickerSetEmpty()
+                )
+            ],
+            force_document=True  # Sticker olarak göndermek için gerekli
+        )
+
+        # Başarılı olursa orijinal "bekleyin" mesajını sil
+        await event.delete()
+
+    except Exception as e:
+        await event.reply(f"**Sticker oluşturulurken hata oluştu:** `{str(e)}`")
+        LOGGER.error(f"Sticker hatası: {str(e)}")
 
 
 print(">> Bot çalıyor 🚀 <<")

@@ -1,5 +1,3 @@
-selam şu bota /sticker komutu ekle ve alıntı yapılan görseli sticker yapıp yanıt olarak o kişyie göndersin. 
-
 import random, os, logging, asyncio
 from telethon import Button
 from telethon import TelegramClient, events

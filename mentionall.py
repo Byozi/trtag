@@ -129,7 +129,7 @@ async def sticker_command(event):
                     stickerset=InputStickerSetEmpty()
                 )
             ],
-            force_document=True
+            force_document=false
         )
 
         await processing.delete()
